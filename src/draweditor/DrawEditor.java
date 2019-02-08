@@ -12,7 +12,8 @@ import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 
 public class DrawEditor {
-    public IReversibleCommand lastExecutedCommand;
+    //public String path;
+    private IReversibleCommand lastExecutedCommand;
     public List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
     public List<IFigure> figures = new ArrayList<IFigure>();
     public List<ITool> tools = new ArrayList<ITool>();
