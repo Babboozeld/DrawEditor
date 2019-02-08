@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0", 
+    "tasks": [
+        {
+            "label": "JComp",
+            "command": "java",
+            "windows": {
+                "command": "${config:java.home}\\bin\\javac.exe"
+            },
+            "args": [
+                "-d",
+                "${workspaceFolder}/bin/",
+                "${workspaceFolder}/src/draweditor/DrawEditor.java"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "JRun",
+            "command": "java",
+            "windows": {
+                "command": "${config:java.home}\\bin\\java.exe"
+            },
+            "args": [
+                "draweditor.DrawEditor"
+            ]
+        }
+    ]
+}
