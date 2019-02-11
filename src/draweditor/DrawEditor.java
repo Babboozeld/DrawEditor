@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import draweditor.frames.MainDrawFrame;
+import draweditor.figures.IDrawable;
 import draweditor.figures.IFigure;
 import draweditor.tools.ITool;
 import draweditor.commands.ICommand;
@@ -57,6 +58,15 @@ public class DrawEditor {
             }
         }
     } 
+    /*
+    public void redraw(){
+        for (IFigure figure : figures) {
+            if (figure instanceof IDrawable){
+                ((IDrawable)figure).draw(g);
+            }
+        }
+    }
+    */
 
 }
 
