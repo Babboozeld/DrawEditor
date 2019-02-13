@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.List;
 
-public class Rectangle implements IFigure, IDrawable {
+public class Rectangle implements IFigure {
 
     private int left;
     private int top;
@@ -28,6 +28,11 @@ public class Rectangle implements IFigure, IDrawable {
     public void draw(Graphics g) {
         g.setColor(color);
         g.drawRect(left, top, width, height);
+    }
+
+    public void move(int dx, int dy) {
+        left += dx;
+        top += dy;
     }
 
 }
