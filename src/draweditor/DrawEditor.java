@@ -12,11 +12,10 @@ import draweditor.tools.ITool;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 
-/*  note:
+/*  note/to do:
     - make sure first group is not removed/ is there always
     - vgm moet je alle figures andersom in tree displayer (hoe dieper naar beneden hoe hoger op in het canvas het komt)
     - redraw() is temp placeholder
-    - rewrite load fuction of filehandler
     - figer serialize of IFigure out (give values ad making of list)
     - the implemented active system isn't great (esspesialy in how it is used in commands)
     - add a cap to how large te history list should be.

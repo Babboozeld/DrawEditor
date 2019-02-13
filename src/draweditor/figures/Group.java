@@ -8,12 +8,10 @@ public class Group implements IFigure {
 
     public final static String FigureType = "group";
 
-    // public int count;
     private List<IFigure> figures;
 
-    public Group(int count) {
-        // this.count = count;
-        figures = new ArrayList();
+    public Group() {
+        figures = new ArrayList<IFigure>();
     }
 
     public void add(IFigure figure) {
