@@ -16,10 +16,13 @@ import draweditor.commands.IReversibleCommand;
     - make sure first group is not removed/ is there always
     - vgm moet je alle figures andersom in tree displayer (hoe dieper naar beneden hoe hoger op in het canvas het komt)
     - redraw() is temp placeholder
-    - figer serialize of IFigure out (give values ad making of list)
     - the implemented active system isn't great (esspesialy in how it is used in commands)
     - add a cap to how large te history list should be.
     - if group is selected and item draw edit it to the back of list in group
+    to do:
+    - figer serialize of IFigure out (give values ad making of list)
+    could:
+    - load error in filehandler
 */
 
 public class DrawEditor {
@@ -27,8 +30,8 @@ public class DrawEditor {
     //public bool filechange;
     private IReversibleCommand lastExecutedCommand;
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
-    //public List<IFigure> figures = new ArrayList<IFigure>();
-    public Group figures;  
+
+    private Group figures;  
     public List<ITool> tools = new ArrayList<ITool>();
 
     public IFigure activeFigure;
@@ -55,7 +58,7 @@ public class DrawEditor {
             lastExecutedCommand = (IReversibleCommand)command;
         }
     }
-
+    //ctrl + shift + z
     public void reverseExecute(){
         int lastExecutedCommandIndex = lastExecutedCommand == null ? 0 : commandsHistory.indexOf(lastExecutedCommand);
         if (lastExecutedCommandIndex < commandsHistory.size() - 1) {
@@ -63,7 +66,7 @@ public class DrawEditor {
             lastExecutedCommand.execute(this);
         }
     }
-
+    //ctrl + z
     public void unexecute(){
         if (lastExecutedCommand != null){
             lastExecutedCommand.unexecute(this);
