@@ -8,7 +8,7 @@ import draweditor.figures.IFigure;
 public class DeleteCommand implements ICommand, IReversibleCommand {
 
     public IFigure figure;
-    public IFigure pevFigure;
+    //public IFigure pevFigure;
 
     public DeleteCommand(IFigure figure) {
         this.figure = figure;

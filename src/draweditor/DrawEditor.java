@@ -1,16 +1,20 @@
 package draweditor;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import draweditor.frames.MainDrawFrame;
 import draweditor.figures.Group;
 import draweditor.figures.IFigure;
 import draweditor.tools.ITool;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
+import draweditor.components.ColorPicker;
+import draweditor.components.MenuBar;
 
 /*  note/to do:
     - make sure first group is not removed/ is there always
@@ -20,18 +24,18 @@ import draweditor.commands.IReversibleCommand;
     - add a cap to how large te history list should be.
     - if group is selected and item draw edit it to the back of list in group
     to do:
-    - figer serialize of IFigure out (give values ad making of list)
+    -
     could:
     - load error in filehandler
 */
 
-public class DrawEditor {
-    //public String path;
-    //public bool filechange;
+public class DrawEditor extends JFrame {
+    // public String path;
+    // public bool filechange;
     private IReversibleCommand lastExecutedCommand;
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
-    private Group figures;  
+    private Group figures;
     public List<ITool> tools = new ArrayList<ITool>();
 
     public IFigure activeFigure;
@@ -40,9 +44,34 @@ public class DrawEditor {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
-        JFrame f = new MainDrawFrame();
+        JFrame f = new DrawEditor();
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private static String TITLE = "DrawEditor";
+    MenuBar makeMenu;
+
+    //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
+    //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
+    private DrawEditor() {
+        super();
+        setTitle(TITLE);
+        setSize(300, 200); // default size is 0,0
+        setLocation(10, 200); // default is 0,0 (top left corner)
+
+        JComponent newContentPane = new ColorPicker();
+        newContentPane.setOpaque(true); // content panes must be opaque
+        //newContentPane.setSize(new Dimension(500, 200));
+        newContentPane.setBackground(Color.BLUE);
+        //newContentPane.Re
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(newContentPane, BorderLayout.EAST);
+        //setContentPane(newContentPane);
+        
+        makeMenu = new MenuBar();
+        setJMenuBar(makeMenu);
+        pack();
     }
 
     public void execute(ICommand command){
@@ -79,7 +108,7 @@ public class DrawEditor {
         }
     }
 
-    public void redraw(){
+    public void redraw() {
         
     }
 
@@ -109,5 +138,4 @@ ellipse   = "ellipse" left top width height
 ornament  = "ornament" position string figure 
 position  = "top" | "bottom" | "left" | "right" 
 count, left, top, width, height = int 
- 
 */

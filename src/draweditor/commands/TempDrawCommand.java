@@ -1,6 +1,5 @@
 package draweditor.commands;
 
-import java.awt.Graphics;
 import java.util.List;
 
 import draweditor.DrawEditor;
@@ -15,9 +14,8 @@ public class TempDrawCommand implements ICommand {
     }
 
     public void execute(DrawEditor draweditor) {
-        //figure.draw(Graphics g);
         List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision, this.figure);
+        figures.add(draweditor.activePosision + 1, this.figure);
         draweditor.redraw();
         figures.remove(this.figure);        
     }

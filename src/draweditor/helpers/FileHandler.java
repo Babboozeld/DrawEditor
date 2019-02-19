@@ -1,6 +1,6 @@
 package draweditor.helpers;
 
-import java.awt.Rectangle;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -52,7 +52,7 @@ public class FileHandler {
                 IFigure pandingFigure = null;
                 switch (arguments[0]) {
                     case "rectangle":
-                        pandingFigure = (IFigure)new Rectangle(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]));
+                    pandingFigure = (IFigure)new Rectangle(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
                         break;
                 }
 

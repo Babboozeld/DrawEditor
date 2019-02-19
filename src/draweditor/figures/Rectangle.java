@@ -2,7 +2,7 @@ package draweditor.figures;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rectangle implements IFigure {
@@ -12,7 +12,7 @@ public class Rectangle implements IFigure {
     private int width;
     private int height;
     private Color color;
-
+    
     public Rectangle(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;
@@ -22,7 +22,13 @@ public class Rectangle implements IFigure {
     }
 
     public List<String> Serialize() {
-        return null; //Arrays.asList(left, top, width, height);
+        List<String> serialized = new ArrayList<String>();
+        serialized.add(Integer.toString(this.left));
+        serialized.add(Integer.toString(this.left));
+        serialized.add(Integer.toString(this.left));
+        serialized.add(Integer.toString(this.left));
+        serialized.add(this.color.toString());
+        return serialized; 
     }
 
     public void draw(Graphics g) {
