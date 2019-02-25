@@ -1,12 +1,16 @@
 package draweditor;
 
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import draweditor.figures.Group;
 import draweditor.figures.IFigure;
@@ -54,7 +58,7 @@ public class DrawEditor extends JFrame {
 
     //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
     //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
-    private DrawEditor() {
+    /*private DrawEditor() {
         super();
         setTitle(TITLE);
         setSize(300, 200); // default size is 0,0
@@ -71,6 +75,55 @@ public class DrawEditor extends JFrame {
         
         makeMenu = new MenuBar();
         setJMenuBar(makeMenu);
+        pack();
+    }*/
+
+    private DrawEditor() {
+        super();
+        //main frame
+        setTitle(TITLE);
+        setSize(300, 200); // default size is 0,0
+        setPreferredSize(new Dimension(1100, 600));
+        setLocation(10, 10); // default is 0,0 (top left corner)
+        getContentPane().setLayout(new BorderLayout());
+        //menu
+        makeMenu = new MenuBar();
+        setJMenuBar(makeMenu);
+        //high level pannels
+
+        /*
+        JComponent newContentPane = new ColorPicker();
+        newContentPane.setOpaque(true); // content panes must be opaque
+        //newContentPane.setSize(new Dimension(500, 200));
+        newContentPane.setBackground(Color.BLUE);
+        //newContentPane.Re
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(newContentPane, BorderLayout.EAST);
+        //setContentPane(newContentPane);
+        */
+
+        JPanel main = new JPanel(new BorderLayout());
+        JPanel mainOptions = new JPanel();
+        main.add(mainOptions, BorderLayout.PAGE_START);
+        mainOptions.setBackground(Color.YELLOW);
+        Canvas drawCanvas = new Canvas();
+        main.add(drawCanvas);
+        getContentPane().add(main, BorderLayout.CENTER);
+        main.setBackground(Color.BLUE);
+
+        JPanel leftBar = new JPanel(new BorderLayout());
+        getContentPane().add(leftBar, BorderLayout.LINE_END);
+        JComponent colorPickerComponent = new ColorPicker();
+        colorPickerComponent.setOpaque(true); // content panes must be opaque
+        colorPickerComponent.setSize(new Dimension(300, 200));
+        JPanel contentTree = new JPanel();
+        JScrollPane contentPlane = new JScrollPane(contentTree);
+        leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
+        leftBar.add(contentPlane);
+        leftBar.setBackground(Color.RED);
+        
+        
+        //make result
         pack();
     }
 
