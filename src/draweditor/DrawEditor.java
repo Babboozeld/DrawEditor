@@ -45,7 +45,6 @@ public class DrawEditor extends JFrame {
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
     private Group figures;
-    //public List<ITool> tools = new ArrayList<ITool>();
     public ITool activeTool;
 
     public IFigure activeFigure;
@@ -60,7 +59,6 @@ public class DrawEditor extends JFrame {
     }
 
     private static String TITLE = "DrawEditor";
-    MenuBar makeMenu;
 
     //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
     //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
@@ -75,7 +73,7 @@ public class DrawEditor extends JFrame {
         getContentPane().setLayout(new BorderLayout());
 
         //menu
-        makeMenu = new MenuBar();
+        MenuBar makeMenu = new MenuBar();
         setJMenuBar(makeMenu);
 
         //high level pannels
@@ -108,17 +106,20 @@ public class DrawEditor extends JFrame {
     public JComponent getButtonGroup() {   
         ButtonGroup buttonGroup = new ButtonGroup();
         JPanel buttonPanel = new JPanel();
-        ActionListener listener = actionEvent -> activeTool = ((ToolButton)actionEvent.getSource()).GetTool(); //System.out.println(actionEvent.getActionCommand() + " Selected");
-        /*for (int i = 0; i < 5; i++) {
-            JToggleButton b = new JToggleButton(Integer.toString(i + 1));
+        ActionListener listener = actionEvent -> { 
+            activeTool = ((ToolButton)actionEvent.getSource()).GetTool();
+            System.out.println(activeTool);
+        }; 
+        List<ITool> buttonTools = new ArrayList<ITool>();
+        buttonTools.add(new ToolRectangle());
+
+        for (ITool tool : buttonTools) {
+            JToggleButton b = new ToolButton(tool);
             b.addActionListener(listener);
             buttonGroup.add(b);
             buttonPanel.add(b);
-        }*/
-        JToggleButton b = new ToolButton(new ToolRectangle());
-        b.addActionListener(listener);
-        buttonGroup.add(b);
-        buttonPanel.add(b);
+        }
+        
         return buttonPanel;
     }
     

@@ -1,6 +1,5 @@
 package draweditor.components;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JToggleButton;
@@ -14,7 +13,6 @@ public class ToolButton extends JToggleButton{
         super(tool.toolIcon);
         //tool.toonIcon.getImage();
         this.tool = tool;
-        //this.setSize(new Dimension(100, 100));
         this.setPreferredSize(new Dimension(40, 40));
     }
 

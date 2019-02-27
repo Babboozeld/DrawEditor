@@ -11,12 +11,12 @@ public abstract class ITool {
         java.net.URL imgURL = getClass().getResource(path);
         if (imgURL != null) 
         {
-                return new ImageIcon(imgURL, description);
+            return new ImageIcon(imgURL, description);
         } 
         else 
         {
-                System.err.println("Couldn't find file: " + path);
-                return null;
+            System.err.println("Couldn't find file: " + path);
+            return null;
         }
     }  
 }
