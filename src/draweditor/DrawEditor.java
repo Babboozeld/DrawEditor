@@ -18,7 +18,10 @@ import javax.swing.JToggleButton;
 import draweditor.figures.Group;
 import draweditor.figures.IFigure;
 import draweditor.tools.ITool;
+import draweditor.tools.ToolEllipse;
+import draweditor.tools.ToolLine;
 import draweditor.tools.ToolRectangle;
+import draweditor.tools.ToolTriangle;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 import draweditor.components.ColorPicker;
@@ -110,16 +113,19 @@ public class DrawEditor extends JFrame {
             activeTool = ((ToolButton)actionEvent.getSource()).GetTool();
             System.out.println(activeTool);
         }; 
+        //add all tools for togglebuttons panel:
         List<ITool> buttonTools = new ArrayList<ITool>();
         buttonTools.add(new ToolRectangle());
-
+        buttonTools.add(new ToolEllipse());
+        buttonTools.add(new ToolTriangle());
+        buttonTools.add(new ToolLine());
+        //create and add all togglebuttons to panel:
         for (ITool tool : buttonTools) {
             JToggleButton b = new ToolButton(tool);
             b.addActionListener(listener);
             buttonGroup.add(b);
             buttonPanel.add(b);
         }
-        
         return buttonPanel;
     }
     
