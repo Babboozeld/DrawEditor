@@ -64,25 +64,6 @@ public class DrawEditor extends JFrame {
 
     //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
     //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
-    /*private DrawEditor() {
-        super();
-        setTitle(TITLE);
-        setSize(300, 200); // default size is 0,0
-        setLocation(10, 200); // default is 0,0 (top left corner)
-
-        JComponent newContentPane = new ColorPicker();
-        newContentPane.setOpaque(true); // content panes must be opaque
-        //newContentPane.setSize(new Dimension(500, 200));
-        newContentPane.setBackground(Color.BLUE);
-        //newContentPane.Re
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(newContentPane, BorderLayout.EAST);
-        //setContentPane(newContentPane);
-        
-        makeMenu = new MenuBar();
-        setJMenuBar(makeMenu);
-        pack();
-    }*/
 
     private DrawEditor() {
         super();
@@ -92,27 +73,17 @@ public class DrawEditor extends JFrame {
         setPreferredSize(new Dimension(1100, 600));
         setLocation(10, 10); // default is 0,0 (top left corner)
         getContentPane().setLayout(new BorderLayout());
+
         //menu
         makeMenu = new MenuBar();
         setJMenuBar(makeMenu);
+
         //high level pannels
-
-        /*
-        JComponent newContentPane = new ColorPicker();
-        newContentPane.setOpaque(true); // content panes must be opaque
-        //newContentPane.setSize(new Dimension(500, 200));
-        newContentPane.setBackground(Color.BLUE);
-        //newContentPane.Re
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(newContentPane, BorderLayout.EAST);
-        //setContentPane(newContentPane);
-        */
-
         JPanel main = new JPanel(new BorderLayout());
         JPanel mainOptions = new JPanel();
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(Color.YELLOW);
-        mainOptions.add(this.getButtonGroup(), BorderLayout.NORTH);
+        mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
         Canvas drawCanvas = new Canvas();
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
@@ -128,7 +99,6 @@ public class DrawEditor extends JFrame {
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
         leftBar.add(contentPlane);
         leftBar.setBackground(Color.RED);
-        
         
         //make result
         pack();
@@ -150,10 +120,6 @@ public class DrawEditor extends JFrame {
         return buttonPanel;
     }
     
-
-
-
-
     public void execute(ICommand command){
         command.execute(this);
         if (command instanceof IReversibleCommand){ //add a cap to how large te list should be.

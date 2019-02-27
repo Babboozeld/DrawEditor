@@ -22,7 +22,8 @@ public class ColorPicker extends JPanel implements ChangeListener
         AbstractColorChooserPanel[] newPanels = new AbstractColorChooserPanel[1];
         newPanels[0] = findPanel(tcc, "javax.swing.colorchooser.DefaultSwatchChooserPanel");
         tcc.setChooserPanels(newPanels);
-
+        
+        tcc.setPreviewPanel(new JPanel());
         add(tcc, BorderLayout.PAGE_START);
     }
 
