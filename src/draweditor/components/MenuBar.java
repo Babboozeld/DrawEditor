@@ -90,5 +90,5 @@ public class MenuBar extends JMenuBar  {
         menu.getAccessibleContext().setAccessibleDescription(
                 "This menu does nothing");
         add(menu);
-    }
+    }     
 }

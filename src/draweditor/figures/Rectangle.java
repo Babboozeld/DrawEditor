@@ -39,6 +39,5 @@ public class Rectangle implements IFigure {
     public void move(int dx, int dy) {
         left += dx;
         top += dy;
-    }
-
+    }  
 }
