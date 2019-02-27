@@ -78,7 +78,7 @@ public class DrawEditor extends JFrame {
 
         //high level pannels
         JPanel main = new JPanel(new BorderLayout());
-        JPanel mainOptions = new JPanel();
+        JPanel mainOptions = new JPanel(new BorderLayout());
         // mainOptions.setPreferredSize(new Dimension(100, 60));
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(Color.YELLOW);
@@ -105,7 +105,7 @@ public class DrawEditor extends JFrame {
     
     public JComponent getButtonGroup() {   
         ButtonGroup buttonGroup = new ButtonGroup();
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         ActionListener listener = actionEvent -> { 
             activeTool = ((ToolButton)actionEvent.getSource()).GetTool();
             System.out.println(activeTool);
@@ -117,7 +117,7 @@ public class DrawEditor extends JFrame {
             JToggleButton b = new ToolButton(tool);
             b.addActionListener(listener);
             buttonGroup.add(b);
-            buttonPanel.add(b);
+            buttonPanel.add(b, BorderLayout.LINE_START);
         }
         
         return buttonPanel;
