@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,12 +85,12 @@ public class DrawEditor extends JFrame {
         JPanel mainOptions = new JPanel(new BorderLayout());
         // mainOptions.setPreferredSize(new Dimension(100, 60));
         main.add(mainOptions, BorderLayout.PAGE_START);
-        mainOptions.setBackground(Color.YELLOW);
+        mainOptions.setBackground(new Color(235,235,235)); 
         mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
         Canvas drawCanvas = new Canvas();
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
-        main.setBackground(Color.BLUE);
+        main.setBackground(Color.WHITE);
 
         JPanel leftBar = new JPanel(new BorderLayout());
         getContentPane().add(leftBar, BorderLayout.LINE_END);
@@ -108,7 +109,7 @@ public class DrawEditor extends JFrame {
     
     public JComponent getButtonGroup() {   
         ButtonGroup buttonGroup = new ButtonGroup();
-        JPanel buttonPanel = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout());
         ActionListener listener = actionEvent -> { 
             activeTool = ((ToolButton)actionEvent.getSource()).GetTool();
             System.out.println(activeTool);
@@ -124,7 +125,7 @@ public class DrawEditor extends JFrame {
             JToggleButton b = new ToolButton(tool);
             b.addActionListener(listener);
             buttonGroup.add(b);
-            buttonPanel.add(b, BorderLayout.LINE_START);
+            buttonPanel.add(b);
         }
         return buttonPanel;
     }
