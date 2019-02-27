@@ -4,21 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 
 import draweditor.figures.Group;
 import draweditor.figures.IFigure;
 import draweditor.tools.ITool;
+import draweditor.tools.ToolRectangle;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 import draweditor.components.ColorPicker;
 import draweditor.components.MenuBar;
+import draweditor.components.ToolButton;
 
 /*  note/to do:
     - make sure first group is not removed/ is there always
@@ -40,7 +45,8 @@ public class DrawEditor extends JFrame {
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
     private Group figures;
-    public List<ITool> tools = new ArrayList<ITool>();
+    //public List<ITool> tools = new ArrayList<ITool>();
+    public ITool activeTool;
 
     public IFigure activeFigure;
     public Group activeGroup;
@@ -106,6 +112,7 @@ public class DrawEditor extends JFrame {
         JPanel mainOptions = new JPanel();
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(Color.YELLOW);
+        mainOptions.add(this.getButtonGroup(), BorderLayout.NORTH);
         Canvas drawCanvas = new Canvas();
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
@@ -126,6 +133,26 @@ public class DrawEditor extends JFrame {
         //make result
         pack();
     }
+    
+    public JComponent getButtonGroup() {   
+        ButtonGroup buttonGroup = new ButtonGroup();
+        JPanel buttonPanel = new JPanel();
+        ActionListener listener = actionEvent -> activeTool = ((ToolButton)actionEvent.getSource()).GetTool(); //System.out.println(actionEvent.getActionCommand() + " Selected");
+        /*for (int i = 0; i < 5; i++) {
+            JToggleButton b = new JToggleButton(Integer.toString(i + 1));
+            b.addActionListener(listener);
+            buttonGroup.add(b);
+            buttonPanel.add(b);
+        }*/
+        JToggleButton b = new ToolButton(new ToolRectangle());
+        b.addActionListener(listener);
+        buttonGroup.add(b);
+        return buttonPanel;
+    }
+    
+
+
+
 
     public void execute(ICommand command){
         command.execute(this);

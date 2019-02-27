@@ -1,5 +1,5 @@
 package draweditor.tools;
 
-public interface ITool {
-    
+public abstract class ITool {
+    public String toolName;
 }
