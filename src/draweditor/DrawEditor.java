@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +20,27 @@ import javax.swing.JToggleButton;
 import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
 import draweditor.tools.*;
+import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
+import draweditor.commands.TempDrawCommand;
 import draweditor.components.ColorPicker;
 import draweditor.components.MenuBar;
 import draweditor.components.ToolButton;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
 /*  note/to do:
     - make sure first group is not removed/ is there always
     - vgm moet je alle figures andersom in tree displayer (hoe dieper naar beneden hoe hoger op in het canvas het komt)
-    - redraw() is temp placeholder
     - the implemented active system isn't great (esspesialy in how it is used in commands)
     - add a cap to how large te history list should be.
     - if group is selected and item draw edit it to the back of list in group
     to do:
     -
     could:
-    - load error in filehandler
+    - load error popup in filehandler
 */
 
 public class DrawEditor extends JFrame {
@@ -51,6 +56,8 @@ public class DrawEditor extends JFrame {
     public GroupFigure activeGroup;
     public int activePosision;
 
+    public Graphics canvasGraphics;
+
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
         JFrame f = new DrawEditor();
@@ -60,8 +67,10 @@ public class DrawEditor extends JFrame {
 
     private static String TITLE = "DrawEditor";
 
+    //https://docs.oracle.com/javase/tutorial/uiswing/painting/step3.html
     //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
     //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
+
 
     private DrawEditor() {
         super();
@@ -84,6 +93,8 @@ public class DrawEditor extends JFrame {
         mainOptions.setBackground(new Color(235,235,235)); 
         mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
         Canvas drawCanvas = new Canvas();
+        setMouseEventsOnCanvas(drawCanvas, this);
+        this.canvasGraphics = drawCanvas.getGraphics();
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
         main.setBackground(Color.WHITE);
@@ -102,8 +113,8 @@ public class DrawEditor extends JFrame {
         //make result
         pack();
     }
-    
-    public JComponent getButtonGroup() {   
+
+    public JComponent getButtonGroup() {
         ButtonGroup buttonGroup = new ButtonGroup();
         JPanel buttonPanel = new JPanel(new FlowLayout());
         ActionListener listener = actionEvent -> { 
@@ -124,6 +135,33 @@ public class DrawEditor extends JFrame {
             buttonPanel.add(b);
         }
         return buttonPanel;
+    }
+
+    //a == this(DrawEditor)
+    public void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
+        drawCanvas.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (a.activeTool != null) {
+                    a.activeTool.setBeginPoint(e.getX(), e.getY());
+                }
+            }
+        });
+
+        drawCanvas.addMouseListener(new MouseAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                if (a.activeTool != null) {
+                    a.execute(new TempDrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
+                }
+            }
+        });
+
+        drawCanvas.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                if (a.activeTool != null) {
+                    a.execute(new DrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
+                }
+            }  
+        });
     }
     
     public void execute(ICommand command){
@@ -161,7 +199,7 @@ public class DrawEditor extends JFrame {
     }
 
     public void redraw() {
-        
+        //figures.draw(g);
     }
 
     public void setActiveFigure(IFigure figure) {
