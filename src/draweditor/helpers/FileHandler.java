@@ -39,25 +39,25 @@ public class FileHandler {
     }
 
     //https://stackoverflow.com/questions/3527216/accessing-the-last-entry-in-a-map
-    public static Group ReadFile(String path) {
-        NavigableMap<Group, Integer> pandingGroups = new TreeMap<Group, Integer>();
+    public static GroupFigure ReadFile(String path) {
+        NavigableMap<GroupFigure, Integer> pandingGroups = new TreeMap<GroupFigure, Integer>();
 
         List<String> FileTextLines = LoadFile(path);
         for (String line : FileTextLines) {
             String[] arguments = line.split(" ");
 
             if (arguments[0] == "group"){
-                pandingGroups.put(new Group(), Integer.parseInt(arguments[1]));
+                pandingGroups.put(new GroupFigure(), Integer.parseInt(arguments[1]));
             } else {
                 IFigure pandingFigure = null;
                 switch (arguments[0]) {
                     case "rectangle":
-                    pandingFigure = (IFigure)new Rectangle(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
+                    pandingFigure = (IFigure)new RectangleFigure(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
                         break;
                 }
 
-                Entry<Group, Integer> entry = pandingGroups.lastEntry();
-                Group deepestGroup = entry.getKey();
+                Entry<GroupFigure, Integer> entry = pandingGroups.lastEntry();
+                GroupFigure deepestGroup = entry.getKey();
                 deepestGroup.add(pandingFigure);
                 int entrysLeft = entry.getValue();
                 if (entrysLeft == 1){

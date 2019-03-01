@@ -16,13 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import draweditor.figures.Group;
+import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
-import draweditor.tools.ITool;
-import draweditor.tools.ToolEllipse;
-import draweditor.tools.ToolLine;
-import draweditor.tools.ToolRectangle;
-import draweditor.tools.ToolTriangle;
+import draweditor.tools.*;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 import draweditor.components.ColorPicker;
@@ -48,11 +44,11 @@ public class DrawEditor extends JFrame {
     private IReversibleCommand lastExecutedCommand;
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
-    private Group figures;
-    public ITool activeTool;
+    private GroupFigure figures;
+    public AbstractTool activeTool;
 
     public IFigure activeFigure;
-    public Group activeGroup;
+    public GroupFigure activeGroup;
     public int activePosision;
 
     public static void main(String[] args) throws Exception {
@@ -115,13 +111,13 @@ public class DrawEditor extends JFrame {
             System.out.println(activeTool);
         }; 
         //add all tools for togglebuttons panel:
-        List<ITool> buttonTools = new ArrayList<ITool>();
-        buttonTools.add(new ToolRectangle());
-        buttonTools.add(new ToolEllipse());
-        buttonTools.add(new ToolTriangle());
-        buttonTools.add(new ToolLine());
+        List<AbstractTool> buttonTools = new ArrayList<AbstractTool>();
+        buttonTools.add(new RectangleTool());
+        buttonTools.add(new EllipseTool());
+        buttonTools.add(new TriangleTool());
+        buttonTools.add(new LineTool());
         //create and add all togglebuttons to panel:
-        for (ITool tool : buttonTools) {
+        for (AbstractTool tool : buttonTools) {
             JToggleButton b = new ToolButton(tool);
             b.addActionListener(listener);
             buttonGroup.add(b);

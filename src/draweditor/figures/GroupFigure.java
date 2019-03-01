@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Group implements IFigure {
+public class GroupFigure implements IFigure {
 
     public final static String FigureType = "group";
 
     private List<IFigure> figures;
 
-    public Group() {
+    public GroupFigure() {
         figures = new ArrayList<IFigure>();
     }
 
@@ -43,11 +43,11 @@ public class Group implements IFigure {
         }
     }
 
-    public Group findGroup(IFigure figure) {
+    public GroupFigure findGroup(IFigure figure) {
         for (IFigure fig : figures) {
             if (fig.equals(figure)) return this;
-            if (fig instanceof Group){
-                Group result = ((Group)fig).findGroup(figure);
+            if (fig instanceof GroupFigure){
+                GroupFigure result = ((GroupFigure)fig).findGroup(figure);
                 if (result != null) return result; 
             }
         }

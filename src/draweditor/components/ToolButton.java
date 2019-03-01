@@ -4,19 +4,19 @@ import java.awt.Dimension;
 
 import javax.swing.JToggleButton;
 
-import draweditor.tools.ITool;
+import draweditor.tools.AbstractTool;
 
 public class ToolButton extends JToggleButton{
-    private ITool tool;
+    private AbstractTool tool;
 
-    public ToolButton(ITool tool) {
+    public ToolButton(AbstractTool tool) {
         super(tool.toolIcon);
         //tool.toonIcon.getImage();
         this.tool = tool;
         this.setPreferredSize(new Dimension(40, 40));
     }
 
-    public ITool GetTool() {
+    public AbstractTool GetTool() {
         return this.tool;
     }
 }

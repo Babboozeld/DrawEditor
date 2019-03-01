@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rectangle implements IFigure {
+public class RectangleFigure implements IFigure {
 
     private int left;
     private int top;
@@ -13,7 +13,7 @@ public class Rectangle implements IFigure {
     private int height;
     private Color color;
     
-    public Rectangle(int left, int top, int width, int height, Color color) {
+    public RectangleFigure(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;
         this.width = width;

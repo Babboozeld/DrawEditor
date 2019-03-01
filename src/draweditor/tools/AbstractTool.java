@@ -3,7 +3,7 @@ package draweditor.tools;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public abstract class ITool {
+public abstract class AbstractTool {
     public Icon toolIcon;
 
     public Icon createImageIcon(String path, String description) 

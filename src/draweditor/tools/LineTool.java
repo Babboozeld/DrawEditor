@@ -1,7 +1,7 @@
 package draweditor.tools;
 
-public class ToolLine extends ITool {
-    public ToolLine() {
+public class LineTool extends AbstractTool {
+    public LineTool() {
         this.toolIcon = createImageIcon("/images/line.png", "test");
     }
 }

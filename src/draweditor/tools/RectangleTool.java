@@ -1,7 +1,7 @@
 package draweditor.tools;
 
-public class ToolRectangle extends ITool {
-    public ToolRectangle() {
+public class RectangleTool extends AbstractTool {
+    public RectangleTool() {
         this.toolIcon = createImageIcon("/images/rectangle.png", "test");
     }
 }

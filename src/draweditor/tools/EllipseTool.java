@@ -1,7 +1,7 @@
 package draweditor.tools;
 
-public class ToolEllipse extends ITool {
-    public ToolEllipse() {
+public class EllipseTool extends AbstractTool {
+    public EllipseTool() {
         this.toolIcon = createImageIcon("/images/ellipse.png", "test");
     }
 }
