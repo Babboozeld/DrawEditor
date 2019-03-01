@@ -15,7 +15,7 @@ public class TempDrawCommand implements ICommand {
 
     public void execute(DrawEditor draweditor) {
         List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision + 1, this.figure);
+        figures.add(draweditor.activePosision, this.figure);
         draweditor.redraw();
         figures.remove(this.figure);        
     }

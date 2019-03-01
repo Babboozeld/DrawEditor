@@ -92,9 +92,7 @@ public class DrawEditor extends JFrame {
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(new Color(235,235,235)); 
         mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
-        Canvas drawCanvas = new Canvas();
-        setMouseEventsOnCanvas(drawCanvas, this);
-        this.canvasGraphics = drawCanvas.getGraphics();
+        JPanel drawCanvas = new JPanel();
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
         main.setBackground(Color.WHITE);
@@ -111,7 +109,13 @@ public class DrawEditor extends JFrame {
         leftBar.setBackground(Color.RED);
         
         //make result
+        figures = new GroupFigure();
+        activeFigure = (IFigure)figures;
+        activeGroup = figures;
+        activePosision = 0;
         pack();
+        setMouseEventsOnCanvas(drawCanvas, this);
+        canvasGraphics = drawCanvas.getGraphics();
     }
 
     public JComponent getButtonGroup() {
@@ -137,30 +141,30 @@ public class DrawEditor extends JFrame {
         return buttonPanel;
     }
 
-    //a == this(DrawEditor)
-    public void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
+    public void setMouseEventsOnCanvas(JPanel drawCanvas, DrawEditor a) {
         drawCanvas.addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 if (a.activeTool != null) {
                     a.activeTool.setBeginPoint(e.getX(), e.getY());
                 }
             }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (a.activeTool != null) {
+                    a.execute(new DrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
+                }
+            }
         });
 
-        drawCanvas.addMouseListener(new MouseAdapter() {
+        drawCanvas.addMouseMotionListener(new MouseAdapter() {
+            @Override
             public void mouseDragged(MouseEvent e) {
                 if (a.activeTool != null) {
                     a.execute(new TempDrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
                 }
             }
-        });
-
-        drawCanvas.addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
-                if (a.activeTool != null) {
-                    a.execute(new DrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
-                }
-            }  
         });
     }
     
@@ -199,7 +203,7 @@ public class DrawEditor extends JFrame {
     }
 
     public void redraw() {
-        //figures.draw(g);
+        figures.draw(canvasGraphics);
     }
 
     public void setActiveFigure(IFigure figure) {

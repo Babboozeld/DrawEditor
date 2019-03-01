@@ -16,14 +16,14 @@ public class DrawCommand implements ICommand, IReversibleCommand {
 
     public void execute(DrawEditor draweditor) {
         List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision + 1, this.figure);
+        figures.add(draweditor.activePosision, this.figure);
         draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
     }
 
     public void unexecute(DrawEditor draweditor) {
         List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision + 1, this.figure);
+        figures.add(draweditor.activePosision, this.figure);
         draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
     }
