@@ -3,7 +3,7 @@ package draweditor.tools;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import draweditor.figures.IFigure;
+import draweditor.commands.ICommand;
 
 public abstract class AbstractTool {
     public Icon toolIcon;
@@ -24,7 +24,7 @@ public abstract class AbstractTool {
         }
     }
 
-	public abstract IFigure getFigure(int x, int y);
+	public abstract ICommand getCommand(int x, int y, boolean temporary);
 
 	public void setBeginPoint(int x, int y) {
         beginX = x;

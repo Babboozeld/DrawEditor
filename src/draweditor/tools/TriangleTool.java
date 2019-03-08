@@ -1,14 +1,14 @@
 package draweditor.tools;
 
-import draweditor.figures.IFigure;
+import draweditor.commands.ICommand;
 
 public class TriangleTool extends AbstractTool {
     public TriangleTool() {
-        this.toolIcon = createImageIcon("/images/triangle.png", "test");
+        this.toolIcon = createImageIcon("/images/triangle.png", "triangle");
     }
 
     @Override
-    public IFigure getFigure(int x, int y) {
-        return null; //new RectangleFigure(beginX, beginY, x, y, Color.RED);
+    public ICommand getCommand(int x, int y, boolean temporary) {
+        return null; // new RectangleFigure(beginX, beginY, x, y, Color.RED);
     }
 }

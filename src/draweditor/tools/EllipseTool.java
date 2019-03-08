@@ -1,15 +1,33 @@
 package draweditor.tools;
 
 import draweditor.figures.IFigure;
-//import draweditor.figures.EllipseFigure;
+
+import java.awt.Color;
+
+import draweditor.commands.DrawCommand;
+import draweditor.commands.ICommand;
+import draweditor.commands.TempDrawCommand;
+import draweditor.figures.EllipseFigure;
 
 public class EllipseTool extends AbstractTool {
     public EllipseTool() {
-        this.toolIcon = createImageIcon("/images/ellipse.png", "test");
+        this.toolIcon = createImageIcon("/images/ellipse.png", "ellipse");
     }
 
     @Override
-    public IFigure getFigure(int x, int y) {
-        return null; //new EllipseFigure(beginX, beginY, x, y);
+    public ICommand getCommand(int x, int y, boolean temporary) {
+        IFigure figure;
+        if (x < beginX) {
+            if (y < beginY){
+                figure = new EllipseFigure(x, y, beginX - x, beginY - y, Color.RED);
+            } else {
+                figure = new EllipseFigure(x, beginY, beginX - x, y - beginY, Color.RED);
+            }
+        }else if (y < beginY) {
+            figure = new EllipseFigure(beginX, y, x- beginX, beginY - y, Color.RED);
+        } else {
+            figure = new EllipseFigure(beginX, beginY, x- beginX, y - beginY, Color.RED);
+        }  
+        return temporary ? new TempDrawCommand(figure) : new DrawCommand(figure);
     }
 }

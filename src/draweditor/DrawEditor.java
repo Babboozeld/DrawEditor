@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,20 +17,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
-import draweditor.figures.GroupFigure;
-import draweditor.figures.IFigure;
-import draweditor.tools.*;
-import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
-import draweditor.commands.TempDrawCommand;
 import draweditor.components.Canvas;
 import draweditor.components.ColorPicker;
 import draweditor.components.MenuBar;
 import draweditor.components.ToolButton;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
+import draweditor.figures.GroupFigure;
+import draweditor.figures.IFigure;
+import draweditor.tools.AbstractTool;
+import draweditor.tools.EllipseTool;
+import draweditor.tools.LineTool;
+import draweditor.tools.MoveTool;
+import draweditor.tools.RectangleTool;
+import draweditor.tools.TriangleTool;
 
 /*  note/to do:
     - make sure first group is not removed/ is there always
@@ -49,15 +50,13 @@ public class DrawEditor extends JFrame {
     private IReversibleCommand lastExecutedCommand;
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
-    //private GroupFigure figures;
     public AbstractTool activeTool;
 
     public IFigure activeFigure;
     public GroupFigure activeGroup;
     public int activePosision;
 
-    public Canvas drawCanvas;
-
+    public Canvas drawCanvas = Canvas.getInstance();
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
         JFrame f = new DrawEditor();
@@ -91,9 +90,8 @@ public class DrawEditor extends JFrame {
         // mainOptions.setPreferredSize(new Dimension(100, 60));
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(new Color(235,235,235)); 
-        mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
-                                                                        //drawCanvas = new Canvas();
-        main.add(Canvas.getInstance());
+        mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);                                                      
+        main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
         main.setBackground(Color.WHITE);
 
@@ -109,13 +107,11 @@ public class DrawEditor extends JFrame {
         leftBar.setBackground(Color.RED);
         
         //make result
-        //figures = new GroupFigure();
-        activeGroup = Canvas.getInstance().getFigures();
+        activeGroup = drawCanvas.getFigures();
         activeFigure = (IFigure)activeGroup;
         activePosision = 0;
         pack();
-        setMouseEventsOnCanvas(Canvas.getInstance(), this);
-                                                    //canvasGraphics = drawCanvas.getGraphics();
+        setMouseEventsOnCanvas(drawCanvas, this);
     }
 
     public JComponent getButtonGroup() {
@@ -131,6 +127,7 @@ public class DrawEditor extends JFrame {
         buttonTools.add(new EllipseTool());
         buttonTools.add(new TriangleTool());
         buttonTools.add(new LineTool());
+        buttonTools.add(new MoveTool());
         //create and add all togglebuttons to panel:
         for (AbstractTool tool : buttonTools) {
             JToggleButton b = new ToolButton(tool);
@@ -152,8 +149,8 @@ public class DrawEditor extends JFrame {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (a.activeTool != null) {
-                    a.execute(new DrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
+                if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()){
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false));
                 }
             }
         });
@@ -161,8 +158,8 @@ public class DrawEditor extends JFrame {
         drawCanvas.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (a.activeTool != null) {
-                    a.execute(new TempDrawCommand(a.activeTool.getFigure(e.getX(), e.getY())));
+                if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()) {
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true));
                 }
             }
         });
@@ -203,7 +200,7 @@ public class DrawEditor extends JFrame {
     }
 
     public void redraw() {
-        Canvas.getInstance().repaint();
+        drawCanvas.repaint();
         //drawCanvas.repaint();
         //figures.draw(canvasGraphics); 
     }
@@ -212,7 +209,7 @@ public class DrawEditor extends JFrame {
         activeFigure = figure;
         activePosision = activeGroup.getFigures().indexOf(figure);
         if (activePosision == -1) {
-            activeGroup = Canvas.getInstance().getFigures().findGroup(figure);
+            activeGroup = drawCanvas.getFigures().findGroup(figure);
             if (activeGroup != null){
                 activePosision = activeGroup.getFigures().indexOf(figure);
             } else {

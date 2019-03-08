@@ -1,14 +1,14 @@
 package draweditor.tools;
 
-import draweditor.figures.IFigure;
+import draweditor.commands.ICommand;
 
 public class LineTool extends AbstractTool {
     public LineTool() {
-        this.toolIcon = createImageIcon("/images/line.png", "test");
+        this.toolIcon = createImageIcon("/images/line.png", "line");
     }
 
     @Override
-    public IFigure getFigure(int x, int y) {
-        return null; //new EllipseFigure(beginX, beginY, x, y);
+    public ICommand getCommand(int x, int y, boolean temporary) {
+        return null; // new EllipseFigure(beginX, beginY, x, y);
     }
 }

@@ -5,15 +5,15 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RectangleFigure implements IFigure {
+public class EllipseFigure implements IFigure {
 
     private int left;
     private int top;
     private int width;
     private int height;
     private Color color;
-    
-    public RectangleFigure(int left, int top, int width, int height, Color color) {
+
+    public EllipseFigure(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;
         this.width = width;
@@ -33,8 +33,8 @@ public class RectangleFigure implements IFigure {
 
     public void draw(Graphics g) {
         g.setColor(color);
-        g.drawRect(left, top, width, height);
-        //g.fillRect(left, top, width, height);
+        g.drawOval(left, top, width, height);
+        //g.fillOval(left, top, width, height);
     }
 
     public void move(int dx, int dy) {
