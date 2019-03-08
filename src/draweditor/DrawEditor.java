@@ -1,7 +1,6 @@
 package draweditor;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,6 +23,7 @@ import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
 import draweditor.commands.TempDrawCommand;
+import draweditor.components.Canvas;
 import draweditor.components.ColorPicker;
 import draweditor.components.MenuBar;
 import draweditor.components.ToolButton;
@@ -49,14 +49,14 @@ public class DrawEditor extends JFrame {
     private IReversibleCommand lastExecutedCommand;
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
-    private GroupFigure figures;
+    //private GroupFigure figures;
     public AbstractTool activeTool;
 
     public IFigure activeFigure;
     public GroupFigure activeGroup;
     public int activePosision;
 
-    public Graphics canvasGraphics;
+    public Canvas drawCanvas;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
@@ -92,8 +92,8 @@ public class DrawEditor extends JFrame {
         main.add(mainOptions, BorderLayout.PAGE_START);
         mainOptions.setBackground(new Color(235,235,235)); 
         mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
-        JPanel drawCanvas = new JPanel();
-        main.add(drawCanvas);
+                                                                        //drawCanvas = new Canvas();
+        main.add(Canvas.getInstance());
         getContentPane().add(main, BorderLayout.CENTER);
         main.setBackground(Color.WHITE);
 
@@ -109,13 +109,13 @@ public class DrawEditor extends JFrame {
         leftBar.setBackground(Color.RED);
         
         //make result
-        figures = new GroupFigure();
-        activeFigure = (IFigure)figures;
-        activeGroup = figures;
+        //figures = new GroupFigure();
+        activeGroup = Canvas.getInstance().getFigures();
+        activeFigure = (IFigure)activeGroup;
         activePosision = 0;
         pack();
-        setMouseEventsOnCanvas(drawCanvas, this);
-        canvasGraphics = drawCanvas.getGraphics();
+        setMouseEventsOnCanvas(Canvas.getInstance(), this);
+                                                    //canvasGraphics = drawCanvas.getGraphics();
     }
 
     public JComponent getButtonGroup() {
@@ -141,7 +141,7 @@ public class DrawEditor extends JFrame {
         return buttonPanel;
     }
 
-    public void setMouseEventsOnCanvas(JPanel drawCanvas, DrawEditor a) {
+    public void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
         drawCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -203,14 +203,16 @@ public class DrawEditor extends JFrame {
     }
 
     public void redraw() {
-        figures.draw(canvasGraphics);
+        Canvas.getInstance().repaint();
+        //drawCanvas.repaint();
+        //figures.draw(canvasGraphics); 
     }
 
     public void setActiveFigure(IFigure figure) {
         activeFigure = figure;
         activePosision = activeGroup.getFigures().indexOf(figure);
         if (activePosision == -1) {
-            activeGroup = figures.findGroup(figure);
+            activeGroup = Canvas.getInstance().getFigures().findGroup(figure);
             if (activeGroup != null){
                 activePosision = activeGroup.getFigures().indexOf(figure);
             } else {
