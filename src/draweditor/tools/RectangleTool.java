@@ -14,19 +14,20 @@ public class RectangleTool extends AbstractTool {
     }
 
     @Override
-    public ICommand getCommand(int x, int y, boolean temporary) {
+    public ICommand getCommand(int x, int y, boolean temporary, Color color) 
+    {
         IFigure figure;
         if (x < beginX) {
             if (y < beginY){
-                figure = new RectangleFigure(x, y, beginX - x, beginY - y, Color.RED);
+                figure = new RectangleFigure(x, y, beginX - x, beginY - y, color);
             } else {
-                figure = new RectangleFigure(x, beginY, beginX - x, y - beginY, Color.RED);
+                figure = new RectangleFigure(x, beginY, beginX - x, y - beginY, color);
             }
         }else if (y < beginY) {
-            figure = new RectangleFigure(beginX, y, x- beginX, beginY - y, Color.RED);
+            figure = new RectangleFigure(beginX, y, x- beginX, beginY - y, color);
         } else {
-            figure = new RectangleFigure(beginX, beginY, x- beginX, y - beginY, Color.RED);
-        }  
+            figure = new RectangleFigure(beginX, beginY, x- beginX, y - beginY, color);
+        }
         return temporary ? new TempDrawCommand(figure) : new DrawCommand(figure);
     }
 }

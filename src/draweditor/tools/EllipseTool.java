@@ -15,18 +15,18 @@ public class EllipseTool extends AbstractTool {
     }
 
     @Override
-    public ICommand getCommand(int x, int y, boolean temporary) {
+    public ICommand getCommand(int x, int y, boolean temporary, Color color) {
         IFigure figure;
         if (x < beginX) {
             if (y < beginY){
-                figure = new EllipseFigure(x, y, beginX - x, beginY - y, Color.RED);
+                figure = new EllipseFigure(x, y, beginX - x, beginY - y, color);
             } else {
-                figure = new EllipseFigure(x, beginY, beginX - x, y - beginY, Color.RED);
+                figure = new EllipseFigure(x, beginY, beginX - x, y - beginY, color);
             }
         }else if (y < beginY) {
-            figure = new EllipseFigure(beginX, y, x- beginX, beginY - y, Color.RED);
+            figure = new EllipseFigure(beginX, y, x- beginX, beginY - y, color);
         } else {
-            figure = new EllipseFigure(beginX, beginY, x- beginX, y - beginY, Color.RED);
+            figure = new EllipseFigure(beginX, beginY, x- beginX, y - beginY, color);
         }  
         return temporary ? new TempDrawCommand(figure) : new DrawCommand(figure);
     }

@@ -55,8 +55,9 @@ public class DrawEditor extends JFrame {
     public IFigure activeFigure;
     public GroupFigure activeGroup;
     public int activePosision;
-
+    public Color color;
     public Canvas drawCanvas = Canvas.getInstance();
+    private ColorPicker colorPickerComponent;
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
         JFrame f = new DrawEditor();
@@ -97,11 +98,11 @@ public class DrawEditor extends JFrame {
 
         JPanel leftBar = new JPanel(new BorderLayout());
         getContentPane().add(leftBar, BorderLayout.LINE_END);
-        JComponent colorPickerComponent = new ColorPicker();
+        colorPickerComponent = new ColorPicker(this);
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
-        JComponent newContentPane = new ShapeList();
+        JComponent newContentPane = new ShapeList(this);
         newContentPane.setOpaque(true);
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
         leftBar.add(newContentPane);
@@ -151,7 +152,7 @@ public class DrawEditor extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()){
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false));
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false, getColor()));
                 }
             }
         });
@@ -160,15 +161,21 @@ public class DrawEditor extends JFrame {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()) {
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true));
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true, getColor()));
                 }
             }
         });
     }
     
+    public Color getColor()
+    {
+        colorPickerComponent.color = this.colorPickerComponent.GetColor(); //Hier gaat het ergens fout, hij returnt null, maar in ColorPicker.GetColor returnt hij wel een color code.
+        return colorPickerComponent.color;
+    }
+
     public void execute(ICommand command){
         command.execute(this);
-        if (command instanceof IReversibleCommand){ //add a cap to how large te list should be.
+        if (command instanceof IReversibleCommand){
             if (lastExecutedCommand != null){
                 int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
                 if (lastExecutedCommandIndex != commandsHistory.size() - 1) {

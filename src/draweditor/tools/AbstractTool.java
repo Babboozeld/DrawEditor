@@ -1,5 +1,6 @@
 package draweditor.tools;
 
+import java.awt.Color;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -24,7 +25,7 @@ public abstract class AbstractTool {
         }
     }
 
-	public abstract ICommand getCommand(int x, int y, boolean temporary);
+	public abstract ICommand getCommand(int x, int y, boolean temporary, Color color);
 
 	public void setBeginPoint(int x, int y) {
         beginX = x;
