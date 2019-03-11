@@ -15,20 +15,24 @@ public class DeleteCommand implements ICommand, IReversibleCommand {
     }
 
     public void execute(DrawEditor draweditor) {
-        this.group = draweditor.activeGroup;
-        this.position = draweditor.activePosision;
-        draweditor.activeGroup.remove(this.figure);
-        draweditor.redraw();
-        if (draweditor.activeGroup.getSize() != 0 && draweditor.activePosision != 0) {
-            draweditor.setActiveFigure(draweditor.activeGroup.getFigures().get(draweditor.activePosision - 1));
-        } else {
-            draweditor.setActiveFigure(draweditor.activeGroup);
+        if (this.figure != draweditor.drawCanvas.getFigures()) {
+            this.group = draweditor.activeGroup;
+            this.position = draweditor.activePosision;
+            draweditor.activeGroup.remove(this.figure);
+            draweditor.redraw();
+            if (draweditor.activeGroup.getSize() != 0 && draweditor.activePosision != 0) {
+                draweditor.setActiveFigure(draweditor.activeGroup.getFigures().get(draweditor.activePosision - 1));
+            } else {
+                draweditor.setActiveFigure(draweditor.activeGroup);
+            }
         }
     }
 
     public void unexecute(DrawEditor draweditor) {
-        this.group.getFigures().add(this.position -1, this.figure);
-        draweditor.redraw();
-        draweditor.setActiveFigure(this.figure);
+        if (this.figure != draweditor.drawCanvas.getFigures()) {
+            this.group.getFigures().add(this.position -1, this.figure);
+            draweditor.redraw();
+            draweditor.setActiveFigure(this.figure);
+        }
     }
 }

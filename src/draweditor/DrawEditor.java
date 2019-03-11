@@ -25,6 +25,7 @@ import draweditor.components.ShapeList;
 import draweditor.components.ToolButton;
 import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
+import draweditor.helpers.KeyHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
@@ -113,9 +114,12 @@ public class DrawEditor extends JFrame {
         activePosision = 0;
         pack();
         setMouseEventsOnCanvas(drawCanvas, this);
+        //setKeysEventsOnFrame(this);
+        setFocusable(true);
+        addKeyListener(new KeyHandler(this));
     }
 
-    public JComponent getButtonGroup() {
+    private JComponent getButtonGroup() {
         ButtonGroup buttonGroup = new ButtonGroup();
         JPanel buttonPanel = new JPanel(new FlowLayout());
         ActionListener listener = actionEvent -> { 
@@ -135,11 +139,68 @@ public class DrawEditor extends JFrame {
             b.addActionListener(listener);
             buttonGroup.add(b);
             buttonPanel.add(b);
+
+            b.setFocusable(false);
         }
         return buttonPanel;
     }
+    
+    public void execute(ICommand command){
+        command.execute(this);
+        if (command instanceof IReversibleCommand){ //add a cap to how large te list should be.
+            if (lastExecutedCommand != null){
+                int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
+                if (lastExecutedCommandIndex != commandsHistory.size() - 1) {
+                    //commandsHistory.subList(commandsHistory.size() - lastExecutedCommandIndex, commandsHistory.size()).clear(); //index could be wrong.
+                    commandsHistory = commandsHistory.subList(0, commandsHistory.size() - lastExecutedCommandIndex -1);
+                }
+            }
+            commandsHistory.add((IReversibleCommand)command);
+            lastExecutedCommand = (IReversibleCommand)command;
+        }
+    }
+    //ctrl + z
+    public void unexecute(){
+        if (lastExecutedCommand != null){
+            lastExecutedCommand.unexecute(this);
+            int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
+            if (lastExecutedCommandIndex > 0){
+                lastExecutedCommand = commandsHistory.get(lastExecutedCommandIndex - 1);
+            } else {
+                lastExecutedCommand = null;
+            }
+        }
+    }
+    //ctrl + shift + z
+    public void reverseExecute(){
+        int lastExecutedCommandIndex = lastExecutedCommand == null ? 0 : commandsHistory.indexOf(lastExecutedCommand);
+        if (lastExecutedCommandIndex < commandsHistory.size() - 1) {
+            lastExecutedCommand = commandsHistory.get(lastExecutedCommandIndex + 1);
+            lastExecutedCommand.execute(this);
+        }
+    }
 
-    public void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
+    public void redraw() {
+        drawCanvas.repaint();
+    }
+
+    public void setActiveFigure(IFigure figure) {
+        activeFigure = figure;
+        activePosision = activeGroup.getFigures().indexOf(figure);
+        if (activePosision == -1) {
+            activeGroup = drawCanvas.getFigures().findGroup(figure);
+            if (activeGroup != null){
+                activePosision = activeGroup.getFigures().indexOf(figure);
+            } else if (figure == drawCanvas.getFigures()) {
+                activeGroup = (GroupFigure)figure;
+                activePosision = 0;
+            } else {
+                throw new Error("No group found. (source: DrawEditor setActiveFigure())");
+            }
+        }
+    }
+
+    private void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
         drawCanvas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -165,58 +226,6 @@ public class DrawEditor extends JFrame {
             }
         });
     }
-    
-    public void execute(ICommand command){
-        command.execute(this);
-        if (command instanceof IReversibleCommand){ //add a cap to how large te list should be.
-            if (lastExecutedCommand != null){
-                int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
-                if (lastExecutedCommandIndex != commandsHistory.size() - 1) {
-                    commandsHistory.subList(commandsHistory.size() - lastExecutedCommandIndex, commandsHistory.size()).clear(); //index could be wrong.
-                }
-            }
-            commandsHistory.add((IReversibleCommand)command);
-            lastExecutedCommand = (IReversibleCommand)command;
-        }
-    }
-    //ctrl + shift + z
-    public void reverseExecute(){
-        int lastExecutedCommandIndex = lastExecutedCommand == null ? 0 : commandsHistory.indexOf(lastExecutedCommand);
-        if (lastExecutedCommandIndex < commandsHistory.size() - 1) {
-            lastExecutedCommand = commandsHistory.get(lastExecutedCommandIndex + 1);
-            lastExecutedCommand.execute(this);
-        }
-    }
-    //ctrl + z
-    public void unexecute(){
-        if (lastExecutedCommand != null){
-            lastExecutedCommand.unexecute(this);
-            int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
-            if (lastExecutedCommandIndex != 0){
-                lastExecutedCommand = commandsHistory.get(lastExecutedCommandIndex - 1);
-            } else {
-                lastExecutedCommand = null;
-            }
-        }
-    }
-
-    public void redraw() {
-        drawCanvas.repaint();
-    }
-
-    public void setActiveFigure(IFigure figure) {
-        activeFigure = figure;
-        activePosision = activeGroup.getFigures().indexOf(figure);
-        if (activePosision == -1) {
-            activeGroup = drawCanvas.getFigures().findGroup(figure);
-            if (activeGroup != null){
-                activePosision = activeGroup.getFigures().indexOf(figure);
-            } else {
-                throw new Error("No group found. (source: DrawEditor setActiveFigure())");
-            }
-        }
-    }
-
 }
 
 //https://stackoverflow.com/questions/147181/how-can-i-convert-my-java-program-to-an-exe-file
