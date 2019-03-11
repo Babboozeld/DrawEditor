@@ -1,18 +1,52 @@
 package draweditor.components;
  
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
  
-/* ListDemo.java requires no other files. */
-public class ShapeList extends JPanel
-                      implements ListSelectionListener {
+public class ShapeList extends JPanel implements ListSelectionListener {
     private JList<String> list;
     private DefaultListModel<String> listModel;
 
+    private static final String fireString = "Fire";
     private JButton deleteButton;
     private String NewItem;
     private int a = 1;
+
+    public ShapeList() {
+        super(new BorderLayout());
+ 
+        //Create the list and put it in a scroll pane.
+        listModel = new DefaultListModel<String>();
+        listModel.addElement("Jane Doe");
+        listModel.addElement("John Smith");
+        listModel.addElement("Kathy Green");
+
+        list = new JList<String>(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.addListSelectionListener(this);
+        list.setVisibleRowCount(5);
+        JScrollPane listScrollPane = new JScrollPane(list);
+ 
+        deleteButton = new JButton(fireString);
+        deleteButton.setActionCommand(fireString);
+        deleteButton.addActionListener(new FireListener());
+ 
+        //Create a panel that uses BoxLayout.
+        JPanel buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane,
+                                           BoxLayout.LINE_AXIS));
+        buttonPane.add(deleteButton);
+        buttonPane.add(Box.createHorizontalStrut(5));
+        buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
+        buttonPane.add(Box.createHorizontalStrut(5));
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+ 
+        add(listScrollPane, BorderLayout.CENTER);
+        add(buttonPane, BorderLayout.PAGE_END);
+    }
 
     public void addItem(String figure)
     {
