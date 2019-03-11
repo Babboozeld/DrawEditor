@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import draweditor.figures.IFigure;
+import draweditor.figures.AbstractFigure;
 
-public class RectangleFigure implements IFigure {
+public class RectangleFigure extends AbstractFigure {
 
     private int left;
     private int top;
