@@ -15,7 +15,7 @@ public class DeleteCommand implements ICommand, IReversibleCommand {
     }
 
     public void execute(DrawEditor draweditor) {
-        if (this.figure != draweditor.drawCanvas.getFigures()) {
+        if (this.figure != draweditor.getFigures()) {
             this.group = draweditor.activeGroup;
             this.position = draweditor.activePosision;
             draweditor.activeGroup.remove(this.figure);
@@ -29,7 +29,7 @@ public class DeleteCommand implements ICommand, IReversibleCommand {
     }
 
     public void unexecute(DrawEditor draweditor) {
-        if (this.figure != draweditor.drawCanvas.getFigures()) {
+        if (this.figure != draweditor.getFigures()) {
             this.group.getFigures().add(this.position -1, this.figure);
             draweditor.redraw();
             draweditor.setActiveFigure(this.figure);
