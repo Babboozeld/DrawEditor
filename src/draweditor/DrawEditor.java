@@ -14,7 +14,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import draweditor.commands.ICommand;
@@ -22,6 +21,7 @@ import draweditor.commands.IReversibleCommand;
 import draweditor.components.Canvas;
 import draweditor.components.ColorPicker;
 import draweditor.components.MenuBar;
+import draweditor.components.ShapeList;
 import draweditor.components.ToolButton;
 import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
@@ -84,7 +84,7 @@ public class DrawEditor extends JFrame {
         MenuBar makeMenu = new MenuBar();
         setJMenuBar(makeMenu);
 
-        //high level pannels
+        //high level panels
         JPanel main = new JPanel(new BorderLayout());
         JPanel mainOptions = new JPanel(new BorderLayout());
         // mainOptions.setPreferredSize(new Dimension(100, 60));
@@ -100,10 +100,11 @@ public class DrawEditor extends JFrame {
         JComponent colorPickerComponent = new ColorPicker();
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
-        JPanel contentTree = new JPanel();
-        JScrollPane contentPlane = new JScrollPane(contentTree);
+        // JPanel contentTree = new JPanel();
+        JComponent newContentPane = new ShapeList();
+        newContentPane.setOpaque(true);
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
-        leftBar.add(contentPlane);
+        leftBar.add(newContentPane);
         leftBar.setBackground(Color.RED);
         
         //make result
