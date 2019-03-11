@@ -53,15 +53,13 @@ public class DrawEditor extends JFrame {
     private List<IReversibleCommand> commandsHistory = new ArrayList<IReversibleCommand>();
 
     public AbstractTool activeTool;
+    private Canvas drawCanvas = new Canvas();
 
+    private Group figures = new Group();
     public IComponent activeFigure;
     public Group activeGroup;
     public int activePosision;
-
-    public Color color;
-    public Canvas drawCanvas = Canvas.getInstance();
-    private ColorPicker colorPickerComponent;
-
+    
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
         DrawEditor d = DrawEditor.getInstance();
@@ -110,7 +108,7 @@ public class DrawEditor extends JFrame {
 
         JPanel leftBar = new JPanel(new BorderLayout());
         getContentPane().add(leftBar, BorderLayout.LINE_END);
-        colorPickerComponent = new ColorPicker();
+        ColorPicker colorPickerComponent = new ColorPicker();
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
@@ -121,8 +119,8 @@ public class DrawEditor extends JFrame {
         leftBar.setBackground(Color.RED);
 
         // make result
-        activeGroup = drawCanvas.getFigures();
-        activeFigure = (IComponent) activeGroup;
+        activeGroup = getFigures();
+        activeFigure = (IComponent)activeGroup;
         activePosision = 0;
         pack();
         setFocusable(true);
@@ -151,6 +149,10 @@ public class DrawEditor extends JFrame {
         }
         ((JToggleButton)buttonPanel.getComponent(0)).doClick(); //hier voor zou mischien een check gedaan moeten worden
         return buttonPanel;
+    }
+
+    public Group getFigures() {
+        return figures;
     }
 
     public void execute(ICommand command){
@@ -196,10 +198,10 @@ public class DrawEditor extends JFrame {
         activeFigure = figure;
         activePosision = activeGroup.getFigures().indexOf(figure);
         if (activePosision == -1) {
-            activeGroup = drawCanvas.getFigures().findGroup(figure);
-            if (activeGroup != null){
+            activeGroup = getFigures().findGroup(figure);
+            if (activeGroup != null) {
                 activePosision = activeGroup.getFigures().indexOf(figure);
-            } else if (figure == drawCanvas.getFigures()) {
+            } else if (figure == getFigures()) {
                 activeGroup = (Group)figure;
                 activePosision = 0;
             } else {
