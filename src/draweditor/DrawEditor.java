@@ -201,8 +201,6 @@ public class DrawEditor extends JFrame {
 
     public void redraw() {
         drawCanvas.repaint();
-        //drawCanvas.repaint();
-        //figures.draw(canvasGraphics); 
     }
 
     public void setActiveFigure(IFigure figure) {

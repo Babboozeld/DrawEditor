@@ -26,6 +26,10 @@ public class GroupFigure implements IFigure {
         return figures;
     }
 
+    public int getSize(){
+        return figures.size();
+    }
+
     public List<String> Serialize() {
         // return List.ArrayList(){LayerType, this.count};new ArrayList<String>();
         return null;

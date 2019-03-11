@@ -1,30 +1,34 @@
 package draweditor.commands;
 
-import java.util.List;
-
 import draweditor.DrawEditor;
+import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
 
 public class DeleteCommand implements ICommand, IReversibleCommand {
 
-    public IFigure figure;
+    private IFigure figure;
+    private GroupFigure group;
+    private int position = 0;
 
     public DeleteCommand(IFigure figure) {
         this.figure = figure;
     }
 
     public void execute(DrawEditor draweditor) {
-        List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.remove(this.figure);
+        this.group = draweditor.activeGroup;
+        this.position = draweditor.activePosision;
+        draweditor.activeGroup.remove(this.figure);
         draweditor.redraw();
-        draweditor.setActiveFigure(this.figure);
+        if (draweditor.activeGroup.getSize() != 0 && draweditor.activePosision != 0) {
+            draweditor.setActiveFigure(draweditor.activeGroup.getFigures().get(draweditor.activePosision - 1));
+        } else {
+            draweditor.setActiveFigure(draweditor.activeGroup);
+        }
     }
 
     public void unexecute(DrawEditor draweditor) {
-        List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision + 1, this.figure);
+        this.group.getFigures().add(this.position -1, this.figure);
         draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
     }
-
 }

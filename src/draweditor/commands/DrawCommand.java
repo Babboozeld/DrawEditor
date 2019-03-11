@@ -8,7 +8,6 @@ import draweditor.figures.IFigure;
 public class DrawCommand implements ICommand, IReversibleCommand {
 
     public IFigure figure;
-    //public IFigure pevFigure;
 
     public DrawCommand(IFigure figure){
         this.figure = figure;
@@ -22,10 +21,13 @@ public class DrawCommand implements ICommand, IReversibleCommand {
     }
 
     public void unexecute(DrawEditor draweditor) {
-        List<IFigure> figures = draweditor.activeGroup.getFigures();
-        figures.add(draweditor.activePosision, this.figure);
-        draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
+        draweditor.activeGroup.remove(this.figure);
+        draweditor.redraw();
+        if (draweditor.activeGroup.getSize() != 0 && draweditor.activePosision != 0) {
+            draweditor.setActiveFigure(draweditor.activeGroup.getFigures().get(draweditor.activePosision - 1));
+        } else {
+            draweditor.setActiveFigure(draweditor.activeGroup);
+        }
     }
-
 }
