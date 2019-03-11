@@ -1,4 +1,4 @@
-package draweditor.components;
+package draweditor.frame.components;
 
 import draweditor.DrawEditor;
 import draweditor.commands.DeleteCommand;
@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.*;
  
 public class ShapeList extends JPanel implements ListSelectionListener {
+    
     private static JList<String> list;
     private static DefaultListModel<String> listModel;
 

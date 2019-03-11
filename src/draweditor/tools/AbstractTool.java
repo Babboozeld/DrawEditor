@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import draweditor.commands.ICommand;
 
 public abstract class AbstractTool {
+    
     public Icon toolIcon;
     public int beginX;
     public int beginY;
@@ -36,7 +37,6 @@ public abstract class AbstractTool {
 	public void setColor(Color color) {
         this.color = color;
     }
-    
 }
 
 //https://icons8.com/icon/set/line/material

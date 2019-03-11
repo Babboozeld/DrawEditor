@@ -3,19 +3,19 @@ package draweditor.commands;
 import java.util.List;
 
 import draweditor.DrawEditor;
-import draweditor.components.ShapeList;
-import draweditor.figures.IFigure;
+import draweditor.frame.components.ShapeList;
+import draweditor.components.IComponent;
 
 public class DrawCommand implements ICommand, IReversibleCommand {
 
-    public IFigure figure;
+    public IComponent figure;
 
-    public DrawCommand(IFigure figure){
+    public DrawCommand(IComponent figure){
         this.figure = figure;
     }
 
     public void execute(DrawEditor draweditor) {
-        List<IFigure> figures = draweditor.activeGroup.getFigures();
+        List<IComponent> figures = draweditor.activeGroup.getFigures();
         figures.add(draweditor.activePosision, this.figure);
         ShapeList.addItem(figure.getClass().getSimpleName());
         draweditor.redraw();

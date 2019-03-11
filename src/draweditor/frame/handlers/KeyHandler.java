@@ -1,4 +1,4 @@
-package draweditor.handlers;
+package draweditor.frame.handlers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -55,7 +55,6 @@ public class KeyHandler implements KeyListener {
                     }
                 }
             }
-        }
-        
+        }  
     }
 }

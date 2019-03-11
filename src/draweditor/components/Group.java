@@ -1,32 +1,32 @@
-package draweditor.figures;
+package draweditor.components;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupFigure implements IFigure {
+public class Group implements IComponent {
 
     public final static String FigureType = "group";
 
-    private List<IFigure> figures;
+    private List<IComponent> figures;
 
-    public GroupFigure() {
-        figures = new ArrayList<IFigure>();
+    public Group() {
+        figures = new ArrayList<IComponent>();
     }
 
-    public void add(IFigure figure) {
+    public void add(IComponent figure) {
         figures.add(figure);
     }
 
-    public void remove(IFigure figure) {
+    public void remove(IComponent figure) {
         figures.remove(figure);
     }
 
-    public List<IFigure> getFigures(){
+    public List<IComponent> getFigures() {
         return figures;
     }
 
-    public int getSize(){
+    public int getSize() {
         return figures.size();
     }
 
@@ -36,26 +36,26 @@ public class GroupFigure implements IFigure {
     }
 
     public void draw(Graphics g) {
-        for(IFigure figure : figures) {
+        for (IComponent figure : figures) {
             figure.draw(g);
         }
     }
 
     public void move(int dx, int dy) {
-        for (IFigure figure : figures) {
+        for (IComponent figure : figures) {
             figure.move(dx, dy);
         }
     }
 
-    public GroupFigure findGroup(IFigure figure) {
-        for (IFigure fig : figures) {
-            if (fig.equals(figure)) return this;
-            if (fig instanceof GroupFigure){
-                GroupFigure result = ((GroupFigure)fig).findGroup(figure);
+    public Group findGroup(IComponent figure) {
+        for (IComponent fig : figures) {
+            if (fig.equals(figure))
+                return this;
+            if (fig instanceof Group) {
+                Group result = ((Group) fig).findGroup(figure);
                 if (result != null) return result; 
             }
         }
         return null;
-    }
-    
+    }  
 }

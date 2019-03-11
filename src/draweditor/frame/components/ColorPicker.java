@@ -1,4 +1,4 @@
-package draweditor.components;
+package draweditor.frame.components;
 
 import java.awt.*;
 import javax.swing.*;

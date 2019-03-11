@@ -16,17 +16,17 @@ import javax.swing.JToggleButton;
 
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
-import draweditor.components.Canvas;
-import draweditor.components.ColorPicker;
-import draweditor.components.MenuBar;
-import draweditor.components.ShapeList;
-import draweditor.components.ToolButton;
-import draweditor.figures.GroupFigure;
-import draweditor.figures.IFigure;
-import draweditor.handlers.FocusHandler;
-import draweditor.handlers.KeyHandler;
-import draweditor.handlers.MouseHandler;
-import draweditor.handlers.MouseMotionHandler;
+import draweditor.frame.components.Canvas;
+import draweditor.frame.components.ColorPicker;
+import draweditor.frame.components.MenuBar;
+import draweditor.frame.components.ShapeList;
+import draweditor.frame.components.ToolButton;
+import draweditor.components.Group;
+import draweditor.components.IComponent;
+import draweditor.frame.handlers.FocusHandler;
+import draweditor.frame.handlers.KeyHandler;
+import draweditor.frame.handlers.MouseHandler;
+import draweditor.frame.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
@@ -54,8 +54,8 @@ public class DrawEditor extends JFrame {
 
     public AbstractTool activeTool;
 
-    public IFigure activeFigure;
-    public GroupFigure activeGroup;
+    public IComponent activeFigure;
+    public Group activeGroup;
     public int activePosision;
 
     public Color color;
@@ -122,7 +122,7 @@ public class DrawEditor extends JFrame {
 
         // make result
         activeGroup = drawCanvas.getFigures();
-        activeFigure = (IFigure) activeGroup;
+        activeFigure = (IComponent) activeGroup;
         activePosision = 0;
         pack();
         setFocusable(true);
@@ -192,7 +192,7 @@ public class DrawEditor extends JFrame {
         drawCanvas.repaint();
     }
 
-    public void setActiveFigure(IFigure figure) {
+    public void setActiveFigure(IComponent figure) {
         activeFigure = figure;
         activePosision = activeGroup.getFigures().indexOf(figure);
         if (activePosision == -1) {
@@ -200,7 +200,7 @@ public class DrawEditor extends JFrame {
             if (activeGroup != null){
                 activePosision = activeGroup.getFigures().indexOf(figure);
             } else if (figure == drawCanvas.getFigures()) {
-                activeGroup = (GroupFigure)figure;
+                activeGroup = (Group)figure;
                 activePosision = 0;
             } else {
                 throw new Error("No group found. (source: DrawEditor setActiveFigure())");

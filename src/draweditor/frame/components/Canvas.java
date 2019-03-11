@@ -1,11 +1,11 @@
-package draweditor.components;
+package draweditor.frame.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import draweditor.figures.GroupFigure;
+import draweditor.components.Group;
 
 public class Canvas extends JPanel {
 
@@ -19,8 +19,8 @@ public class Canvas extends JPanel {
         return instance;
     }
 
-    private GroupFigure figures = new GroupFigure();
-    public GroupFigure getFigures() {
+    private Group figures = new Group();
+    public Group getFigures() {
         return figures;
     }
 

@@ -1,6 +1,6 @@
 package draweditor.tools;
 
-import draweditor.figures.IFigure;
+import draweditor.components.IComponent;
 
 import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
@@ -15,7 +15,7 @@ public class EllipseTool extends AbstractTool {
 
     @Override
     public ICommand getCommand(int x, int y, boolean temporary) {
-        IFigure figure;
+        IComponent figure;
         if (x < beginX) {
             if (y < beginY){
                 figure = new EllipseFigure(x, y, beginX - x, beginY - y, this.color);

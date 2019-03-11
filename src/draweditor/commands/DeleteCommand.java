@@ -1,16 +1,16 @@
 package draweditor.commands;
 
 import draweditor.DrawEditor;
-import draweditor.figures.GroupFigure;
-import draweditor.figures.IFigure;
+import draweditor.components.Group;
+import draweditor.components.IComponent;
 
 public class DeleteCommand implements ICommand, IReversibleCommand {
 
-    private IFigure figure;
-    private GroupFigure group;
+    private IComponent figure;
+    private Group group;
     private int position = 0;
 
-    public DeleteCommand(IFigure figure) {
+    public DeleteCommand(IComponent figure) {
         this.figure = figure;
     }
 
@@ -35,5 +35,4 @@ public class DeleteCommand implements ICommand, IReversibleCommand {
             draweditor.setActiveFigure(this.figure);
         }
     }
-    
 }

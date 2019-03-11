@@ -5,6 +5,7 @@ import draweditor.commands.MoveCommand;
 import draweditor.commands.TempMoveCommand;
 
 public class MoveTool extends AbstractTool {
+
     public MoveTool() {
         this.toolIcon = createImageIcon("/images/move.png", "move");
     }

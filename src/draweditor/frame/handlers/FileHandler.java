@@ -1,4 +1,4 @@
-package draweditor.handlers;
+package draweditor.frame.handlers;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -13,6 +13,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import draweditor.components.*;
 import draweditor.figures.*;
 
 //https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html
@@ -39,25 +40,25 @@ public class FileHandler {
     }
 
     //https://stackoverflow.com/questions/3527216/accessing-the-last-entry-in-a-map
-    public static GroupFigure ReadFile(String path) {
-        NavigableMap<GroupFigure, Integer> pandingGroups = new TreeMap<GroupFigure, Integer>();
+    public static Group ReadFile(String path) {
+        NavigableMap<Group, Integer> pandingGroups = new TreeMap<Group, Integer>();
 
         List<String> FileTextLines = LoadFile(path);
         for (String line : FileTextLines) {
             String[] arguments = line.split(" ");
 
             if (arguments[0] == "group"){
-                pandingGroups.put(new GroupFigure(), Integer.parseInt(arguments[1]));
+                pandingGroups.put(new Group(), Integer.parseInt(arguments[1]));
             } else {
-                IFigure pandingFigure = null;
+                IComponent pandingFigure = null;
                 switch (arguments[0]) {
                     case "rectangle":
-                    pandingFigure = (IFigure)new RectangleFigure(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
+                    pandingFigure = (IComponent)new RectangleFigure(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
                         break;
                 }
 
-                Entry<GroupFigure, Integer> entry = pandingGroups.lastEntry();
-                GroupFigure deepestGroup = entry.getKey();
+                Entry<Group, Integer> entry = pandingGroups.lastEntry();
+                Group deepestGroup = entry.getKey();
                 deepestGroup.add(pandingFigure);
                 int entrysLeft = entry.getValue();
                 if (entrysLeft == 1){
@@ -77,11 +78,11 @@ public class FileHandler {
         return null;
     }
 
-    public static void SaveFile(List<IFigure> figures, String path){
+    public static void SaveFile(List<IComponent> figures, String path){
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
 
-            for (IFigure figure : figures) {
+            for (IComponent figure : figures) {
                 bufferedWriter.write(String.join(" ", figure.Serialize()));
                 bufferedWriter.newLine();
             }
@@ -93,5 +94,4 @@ public class FileHandler {
             // ex.printStackTrace();
         }
     }
-
 }

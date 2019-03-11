@@ -3,10 +3,11 @@ package draweditor.tools;
 import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
 import draweditor.commands.TempDrawCommand;
-import draweditor.figures.IFigure;
+import draweditor.components.IComponent;
 import draweditor.figures.RectangleFigure;
 
 public class RectangleTool extends AbstractTool {
+
     public RectangleTool() {
         this.toolIcon = createImageIcon("/images/rectangle.png", "rectangle");
     }
@@ -14,7 +15,7 @@ public class RectangleTool extends AbstractTool {
     @Override
     public ICommand getCommand(int x, int y, boolean temporary) 
     {
-        IFigure figure;
+        IComponent figure;
         if (x < beginX) {
             if (y < beginY){
                 figure = new RectangleFigure(x, y, beginX - x, beginY - y, color);

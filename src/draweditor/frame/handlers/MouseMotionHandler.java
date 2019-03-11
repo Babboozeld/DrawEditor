@@ -1,4 +1,4 @@
-package draweditor.handlers;
+package draweditor.frame.handlers;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,5 +15,4 @@ public class MouseMotionHandler extends MouseAdapter {
             this.d.execute(this.d.activeTool.getCommand(e.getX(), e.getY(), true));
         }
     }
-
 }

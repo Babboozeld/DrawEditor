@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import draweditor.figures.IFigure;
+
 public class RectangleFigure implements IFigure {
 
     private int left;

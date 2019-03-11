@@ -3,7 +3,7 @@ package draweditor.commands;
 import javax.swing.SwingUtilities;
 
 import draweditor.DrawEditor;
-import draweditor.figures.IFigure;
+import draweditor.components.IComponent;
 
 public class TempMoveCommand implements ICommand {
 
@@ -15,7 +15,7 @@ public class TempMoveCommand implements ICommand {
     }
 
     public void execute(DrawEditor draweditor) {
-        IFigure avectedFigure = draweditor.activeFigure;
+        IComponent avectedFigure = draweditor.activeFigure;
         avectedFigure.move(this.dx, this.dy);
         draweditor.redraw();  
         SwingUtilities.invokeLater(new Runnable() {
@@ -24,5 +24,4 @@ public class TempMoveCommand implements ICommand {
             }
         });  
     }
-
 }

@@ -21,5 +21,4 @@ public class MoveCommand implements ICommand, IReversibleCommand {
         draweditor.activeFigure.move(-this.dx, -this.dy);
         draweditor.redraw(); 
     }
-
 }

@@ -1,4 +1,4 @@
-package draweditor.handlers;
+package draweditor.frame.handlers;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -18,5 +18,4 @@ public class FocusHandler implements FocusListener {
     public void focusLost(FocusEvent e) {
         d.requestFocus();
     }
-
 }
