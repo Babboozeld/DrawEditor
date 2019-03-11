@@ -1,7 +1,5 @@
 package draweditor.tools;
 
-import java.awt.Color;
-
 import draweditor.commands.DrawCommand;
 import draweditor.commands.ICommand;
 import draweditor.commands.TempDrawCommand;
@@ -14,7 +12,7 @@ public class RectangleTool extends AbstractTool {
     }
 
     @Override
-    public ICommand getCommand(int x, int y, boolean temporary, Color color) 
+    public ICommand getCommand(int x, int y, boolean temporary) 
     {
         IFigure figure;
         if (x < beginX) {

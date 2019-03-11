@@ -37,9 +37,9 @@ public class KeyHandler implements KeyListener {
     }
 
     private void checkShortCuts(){
-        for (Integer var : keysDown) {
-            System.out.println(var);
-        }
+        // for (Integer var : keysDown) {
+        //     System.out.println(var);
+        // }
         if (free == true) {
             if (keysDown.contains(17)) {
                 if (keysDown.contains(90)){

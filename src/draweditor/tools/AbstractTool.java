@@ -10,6 +10,7 @@ public abstract class AbstractTool {
     public Icon toolIcon;
     public int beginX;
     public int beginY;
+    protected Color color = Color.BLACK;
 
     public Icon createImageIcon(String path, String description) 
     {
@@ -25,11 +26,15 @@ public abstract class AbstractTool {
         }
     }
 
-	public abstract ICommand getCommand(int x, int y, boolean temporary, Color color);
+	public abstract ICommand getCommand(int x, int y, boolean temporary);
 
 	public void setBeginPoint(int x, int y) {
         beginX = x;
         beginY = y;
+	}
+
+	public void setColor(Color color) {
+        this.color = color;
 	}  
 }
 

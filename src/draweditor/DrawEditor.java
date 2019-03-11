@@ -56,6 +56,7 @@ public class DrawEditor extends JFrame {
     public IFigure activeFigure;
     public GroupFigure activeGroup;
     public int activePosision;
+
     public Color color;
     public Canvas drawCanvas = Canvas.getInstance();
     private ColorPicker colorPickerComponent;
@@ -143,13 +144,8 @@ public class DrawEditor extends JFrame {
 
             b.setFocusable(false);
         }
+        ((JToggleButton)buttonPanel.getComponent(0)).doClick();
         return buttonPanel;
-    }
-
-    public Color getColor()
-    {
-        colorPickerComponent.color = this.colorPickerComponent.GetColor(); //Hier gaat het ergens fout, hij returnt null, maar in ColorPicker.GetColor returnt hij wel een color code.
-        return colorPickerComponent.color;
     }
 
     public void execute(ICommand command){
@@ -219,7 +215,7 @@ public class DrawEditor extends JFrame {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()){
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false, getColor()));
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false));
                 }
             }
         });
@@ -228,7 +224,7 @@ public class DrawEditor extends JFrame {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()) {
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true, getColor()));
+                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true));
                 }
             }
         });

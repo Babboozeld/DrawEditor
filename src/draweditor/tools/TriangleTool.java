@@ -1,7 +1,5 @@
 package draweditor.tools;
 
-import java.awt.Color;
-
 import draweditor.commands.ICommand;
 
 public class TriangleTool extends AbstractTool {
@@ -10,7 +8,7 @@ public class TriangleTool extends AbstractTool {
     }
 
     @Override
-    public ICommand getCommand(int x, int y, boolean temporary, Color color) {
+    public ICommand getCommand(int x, int y, boolean temporary) {
         return null; // new RectangleFigure(beginX, beginY, x, y, Color.RED);
     }
 }

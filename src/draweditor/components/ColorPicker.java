@@ -7,7 +7,6 @@ import javax.swing.event.*;
 
 import draweditor.DrawEditor;
 
-/* ColorChooserDemo.java requires no other files. */
 public class ColorPicker extends JPanel implements ChangeListener 
 {
     public JColorChooser tcc;
@@ -16,9 +15,8 @@ public class ColorPicker extends JPanel implements ChangeListener
 
     public ColorPicker(DrawEditor DE) {
         super(new BorderLayout());
-
         //Set up color chooser for setting text color
-        tcc = new JColorChooser();
+        tcc = new JColorChooser(Color.BLACK);
         tcc.getSelectionModel().addChangeListener(this);
         tcc.setBorder(BorderFactory.createTitledBorder("Choose Text Color"));
 
@@ -28,6 +26,9 @@ public class ColorPicker extends JPanel implements ChangeListener
              
         tcc.setPreviewPanel(new JPanel());
         add(tcc, BorderLayout.PAGE_START);
+
+        //https://docs.oracle.com/javase/tutorial/uiswing/components/colorchooser.html
+        this.DE = DE;
     }
 
     public static AbstractColorChooserPanel findPanel(JColorChooser tcc, String name) 
@@ -44,16 +45,12 @@ public class ColorPicker extends JPanel implements ChangeListener
         return null;
     }
 
-    public Color GetColor()
-    {
-        color = tcc.getColor();
-        System.out.println(color);
-        return color;
-    }
-
+    @Override
     public void stateChanged(ChangeEvent e) {
-        // int i = 0;
-        // color = GetColor(color);
-        // DE.activeFigure;
+        Color newColor = tcc.getColor();
+        if (newColor != null) {
+            this.DE.activeTool.setColor(newColor);
+            System.out.println(newColor);
+        }
     }
 }
