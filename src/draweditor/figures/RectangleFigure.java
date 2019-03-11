@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import draweditor.figures.AbstractFigure;
-
 public class RectangleFigure extends AbstractFigure {
 
     private int left;
@@ -14,7 +12,7 @@ public class RectangleFigure extends AbstractFigure {
     private int width;
     private int height;
     private Color color;
-    
+
     public RectangleFigure(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;
@@ -30,11 +28,13 @@ public class RectangleFigure extends AbstractFigure {
         serialized.add(Integer.toString(this.width));
         serialized.add(Integer.toString(this.height));
         serialized.add(this.color.toString());
-        return serialized; 
+        return serialized;
     }
 
     public void draw(Graphics g) {
         g.setColor(color);
+        // Graphics2D g2 = (Graphics2D)g; https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
+        // g2.setStroke(new BasicStroke(7));
         g.drawRect(left, top, width, height);
         //g.fillRect(left, top, width, height);
     }
