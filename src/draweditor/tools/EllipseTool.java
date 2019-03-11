@@ -8,6 +8,7 @@ import draweditor.commands.TempDrawCommand;
 import draweditor.figures.EllipseFigure;
 
 public class EllipseTool extends AbstractTool {
+
     public EllipseTool() {
         this.toolIcon = createImageIcon("/images/ellipse.png", "ellipse");
     }
@@ -21,7 +22,7 @@ public class EllipseTool extends AbstractTool {
             } else {
                 figure = new EllipseFigure(x, beginY, beginX - x, y - beginY, this.color);
             }
-        }else if (y < beginY) {
+        } else if (y < beginY) {
             figure = new EllipseFigure(beginX, y, x- beginX, beginY - y, this.color);
         } else {
             figure = new EllipseFigure(beginX, beginY, x- beginX, y - beginY, this.color);

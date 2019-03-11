@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,10 @@ import draweditor.components.ShapeList;
 import draweditor.components.ToolButton;
 import draweditor.figures.GroupFigure;
 import draweditor.figures.IFigure;
-import draweditor.helpers.KeyHandler;
+import draweditor.handlers.FocusHandler;
+import draweditor.handlers.KeyHandler;
+import draweditor.handlers.MouseHandler;
+import draweditor.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
@@ -60,47 +61,56 @@ public class DrawEditor extends JFrame {
     public Color color;
     public Canvas drawCanvas = Canvas.getInstance();
     private ColorPicker colorPickerComponent;
+
     public static void main(String[] args) throws Exception {
         System.out.println("Main started:");
-        JFrame f = new DrawEditor();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        DrawEditor d = DrawEditor.getInstance();
+        d.setVisible(true);
+        d.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        d.addKeyListener(new KeyHandler());
+        d.addFocusListener(new FocusHandler());
+        d.drawCanvas.addMouseListener(new MouseHandler());
+        d.drawCanvas.addMouseMotionListener(new MouseMotionHandler());
     }
 
     private static String TITLE = "DrawEditor";
 
-    //https://docs.oracle.com/javase/tutorial/uiswing/painting/step3.html
-    //https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
-    //https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
+    // https://docs.oracle.com/javase/tutorial/uiswing/painting/step3.html
+    // https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
+    // https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
 
+    private static DrawEditor instance = new DrawEditor();
+    public static DrawEditor getInstance(){
+        return instance;
+    }
 
     private DrawEditor() {
         super();
-        //main frame
+        // main frame
         setTitle(TITLE);
         setSize(300, 200); // default size is 0,0
         setPreferredSize(new Dimension(1100, 600));
         setLocation(10, 10); // default is 0,0 (top left corner)
         getContentPane().setLayout(new BorderLayout());
 
-        //menu
+        // menu
         MenuBar makeMenu = new MenuBar();
         setJMenuBar(makeMenu);
 
-        //high level panels
+        // high level panels
         JPanel main = new JPanel(new BorderLayout());
         JPanel mainOptions = new JPanel(new BorderLayout());
         // mainOptions.setPreferredSize(new Dimension(100, 60));
         main.add(mainOptions, BorderLayout.PAGE_START);
-        mainOptions.setBackground(new Color(235,235,235)); 
-        mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);                                                      
+        mainOptions.setBackground(new Color(235, 235, 235));
+        mainOptions.add(this.getButtonGroup(), BorderLayout.LINE_START);
         main.add(drawCanvas);
         getContentPane().add(main, BorderLayout.CENTER);
         main.setBackground(Color.WHITE);
 
         JPanel leftBar = new JPanel(new BorderLayout());
         getContentPane().add(leftBar, BorderLayout.LINE_END);
-        colorPickerComponent = new ColorPicker(this);
+        colorPickerComponent = new ColorPicker();
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
@@ -109,16 +119,13 @@ public class DrawEditor extends JFrame {
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
         leftBar.add(newContentPane);
         leftBar.setBackground(Color.RED);
-        
-        //make result
+
+        // make result
         activeGroup = drawCanvas.getFigures();
-        activeFigure = (IFigure)activeGroup;
+        activeFigure = (IFigure) activeGroup;
         activePosision = 0;
         pack();
-        setMouseEventsOnCanvas(drawCanvas, this);
-        //setKeysEventsOnFrame(this);
         setFocusable(true);
-        addKeyListener(new KeyHandler(this));
     }
 
     private JComponent getButtonGroup() {
@@ -141,16 +148,14 @@ public class DrawEditor extends JFrame {
             b.addActionListener(listener);
             buttonGroup.add(b);
             buttonPanel.add(b);
-
-            b.setFocusable(false);
         }
-        ((JToggleButton)buttonPanel.getComponent(0)).doClick();
+        ((JToggleButton)buttonPanel.getComponent(0)).doClick(); //hier voor zou mischien een check gedaan moeten worden
         return buttonPanel;
     }
 
     public void execute(ICommand command){
         command.execute(this);
-        if (command instanceof IReversibleCommand){
+        if (command instanceof IReversibleCommand) { //add a cap to how large te list should be.
             if (lastExecutedCommand != null){
                 int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
                 if (lastExecutedCommandIndex != commandsHistory.size() - 1) {
@@ -201,34 +206,7 @@ public class DrawEditor extends JFrame {
                 throw new Error("No group found. (source: DrawEditor setActiveFigure())");
             }
         }
-    }
-
-    public void setMouseEventsOnCanvas(Canvas drawCanvas, DrawEditor a) {
-        drawCanvas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (a.activeTool != null) {
-                    a.activeTool.setBeginPoint(e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()){
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), false));
-                }
-            }
-        });
-
-        drawCanvas.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (a.activeTool != null && a.activeTool.beginX != e.getX() && a.activeTool.beginY != e.getY()) {
-                    a.execute(a.activeTool.getCommand(e.getX(), e.getY(), true));
-                }
-            }
-        });
-    }
+    }  
 }
 
 //https://stackoverflow.com/questions/147181/how-can-i-convert-my-java-program-to-an-exe-file

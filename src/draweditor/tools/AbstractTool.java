@@ -35,7 +35,8 @@ public abstract class AbstractTool {
 
 	public void setColor(Color color) {
         this.color = color;
-	}  
+    }
+    
 }
 
 //https://icons8.com/icon/set/line/material

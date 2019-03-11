@@ -11,4 +11,5 @@ public class LineTool extends AbstractTool {
     public ICommand getCommand(int x, int y, boolean temporary) {
         return null; // new EllipseFigure(beginX, beginY, x, y);
     }
+    
 }

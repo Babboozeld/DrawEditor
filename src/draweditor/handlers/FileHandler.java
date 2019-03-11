@@ -1,4 +1,4 @@
-package draweditor.helpers;
+package draweditor.handlers;
 
 import java.awt.Color;
 import java.io.BufferedReader;

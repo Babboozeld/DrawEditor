@@ -35,4 +35,5 @@ public class DeleteCommand implements ICommand, IReversibleCommand {
             draweditor.setActiveFigure(this.figure);
         }
     }
+    
 }

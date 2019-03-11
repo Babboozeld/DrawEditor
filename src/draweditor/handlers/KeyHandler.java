@@ -1,22 +1,16 @@
-package draweditor.helpers;
+package draweditor.handlers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
 
 import draweditor.DrawEditor;
 
 public class KeyHandler implements KeyListener {
 
     private ArrayList<Integer> keysDown = new ArrayList<Integer>();
-    private DrawEditor draweditor;
+    private DrawEditor draweditor = DrawEditor.getInstance();
     public boolean free = true;
-    
-    public KeyHandler(DrawEditor draweditor) {
-        this.draweditor = draweditor;
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -38,26 +32,26 @@ public class KeyHandler implements KeyListener {
 
     private void checkShortCuts(){
         // for (Integer var : keysDown) {
-        //     System.out.println(var);
+        //      System.out.println(var);
         // }
         if (free == true) {
             if (keysDown.contains(17)) {
                 if (keysDown.contains(90)){
-                    free = false;
+                    //free = false;
                     if (keysDown.contains(16)) {
                         draweditor.reverseExecute();
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                free = true;
-                            }
-                        });  
+                        // SwingUtilities.invokeLater(new Runnable() {
+                        //     public void run() {
+                        //         free = true;
+                        //     }
+                        // });  
                     } else {
                         draweditor.unexecute(); 
-                        SwingUtilities.invokeLater(new Runnable() {
-                           public void run() {
-                               free = true;
-                           }
-                        });  
+                        // SwingUtilities.invokeLater(new Runnable() {
+                        //    public void run() {
+                        //        free = true;
+                        //    }
+                        // });  
                     }
                 }
             }
