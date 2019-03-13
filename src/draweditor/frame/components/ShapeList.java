@@ -5,6 +5,8 @@ import draweditor.commands.DeleteCommand;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 import javax.swing.event.*;
  
@@ -47,11 +49,42 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         add(buttonPane, BorderLayout.PAGE_END);
     }
 
-    public static void addItem(String figurestring)
-    {
+    public static void addItem(String figurestring) // Add item in ShapeList
+    {   
+        String path;
+        switch(figurestring)
+        {
+            case "RectangleFigure":
+            path = ("/images/rectangle.png");
+            //("/images/rectangle.png", "rectangle");
+            break;
+            case "EllipseFigure":
+            path = ("/images/ellipse.png");
+            //("/images/ellipse.png", "ellipse");
+            break;
+        }
+
+        File folder = new File(path);
+        File[] listOfFiles = folder.listFiles();
+        DefaultListModel listModel = new DefaultListModel();
+        int count = 0;
+        for (int i = 0; i < listOfFiles.length; i++) {
+        String name = listOfFiles[i].toString();
+        if (name.endsWith("jpg")) {
+            ImageIcon ii = new ImageIcon(ImageIO.read(listOfFiles[i]));
+            listModel.add(count++, ii);
+        }
+        }
         NewItem = figurestring + a;
         a++;
-        listModel.addElement(NewItem);
+        listModel.add(NewItem, pic);
+        
+    }
+
+    public static void deleteItem() // Delete item in ShapeList
+    {
+        listModel.removeElementAt(listModel.size() - 1);
+        a--;
     }
  
     class DeleteListener implements ActionListener {
