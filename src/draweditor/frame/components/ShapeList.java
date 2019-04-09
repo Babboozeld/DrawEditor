@@ -6,12 +6,15 @@ import draweditor.commands.DeleteCommand;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.*;
- 
+
+import javax.imageio.ImageIO;
+
 public class ShapeList extends JPanel implements ListSelectionListener {
-    
+
     private static JList<String> list;
     private static DefaultListModel<String> listModel;
 
@@ -25,14 +28,14 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         super(new BorderLayout());
         this.DE = DE;
         listModel = new DefaultListModel<String>();
-        
+
         list = new JList<String>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
         list.addListSelectionListener(this);
         list.setVisibleRowCount(5);
         JScrollPane listScrollPane = new JScrollPane(list);
- 
+
         deleteButton = new JButton(deleteString);
         deleteButton.setActionCommand(deleteString);
         deleteButton.addActionListener(new DeleteListener());
@@ -43,42 +46,46 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         buttonPane.add(Box.createHorizontalStrut(5));
         buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
         buttonPane.add(Box.createHorizontalStrut(5));
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
- 
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
         add(listScrollPane, BorderLayout.CENTER);
         add(buttonPane, BorderLayout.PAGE_END);
     }
 
     public static void addItem(String figurestring) // Add item in ShapeList
-    {   
-        String path;
-        switch(figurestring)
-        {
-            case "RectangleFigure":
+    {
+        String path = null;
+        switch (figurestring) {
+        case "RectangleFigure":
             path = ("/images/rectangle.png");
-            //("/images/rectangle.png", "rectangle");
+            // ("/images/rectangle.png", "rectangle");
             break;
-            case "EllipseFigure":
+        case "EllipseFigure":
             path = ("/images/ellipse.png");
-            //("/images/ellipse.png", "ellipse");
+            // ("/images/ellipse.png", "ellipse");
             break;
         }
 
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<ImageIcon> listModel = new DefaultListModel<ImageIcon>();
         int count = 0;
+        ImageIcon ii = null;
         for (int i = 0; i < listOfFiles.length; i++) {
-        String name = listOfFiles[i].toString();
-        if (name.endsWith("jpg")) {
-            ImageIcon ii = new ImageIcon(ImageIO.read(listOfFiles[i]));
-            listModel.add(count++, ii);
-        }
+            String name = listOfFiles[i].toString();
+            if (name.endsWith("jpg")) {
+                try {
+                    ii = new ImageIcon(ImageIO.read(listOfFiles[i]));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                listModel.add(count++, ii);
+            }
         }
         NewItem = figurestring + a;
         a++;
-        listModel.add(NewItem, pic);
-        
+        if (ii != null) listModel.add(a, ii);
     }
 
     public static void deleteItem() // Delete item in ShapeList

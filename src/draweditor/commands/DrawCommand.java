@@ -10,7 +10,7 @@ public class DrawCommand implements ICommand, IReversibleCommand {
 
     public IComponent figure;
 
-    public DrawCommand(IComponent figure){
+    public DrawCommand(IComponent figure) {
         this.figure = figure;
     }
 
