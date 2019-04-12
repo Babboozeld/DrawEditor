@@ -52,9 +52,6 @@ public class Group implements IComponent {
     @Override
     public void accept(IComponentVisitor iComponentVisitor) {
         iComponentVisitor.visit(this);
-        for (IComponent figure : figures) {
-            figure.accept(iComponentVisitor);
-        }
     }
 
     @Override

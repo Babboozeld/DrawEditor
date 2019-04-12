@@ -11,7 +11,7 @@ public class SelectTool extends AbstractTool {
     private IComponent figure = null;
 
     public SelectTool() {
-        this.toolIcon = createImageIcon("/images/move.png", "move");
+        this.toolIcon = createImageIcon("/images/cursor.png", "cursor");
     }
 
     @Override
