@@ -1,6 +1,5 @@
 package draweditor.components;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,18 +36,6 @@ public class Group implements IComponent {
         return null;
     }
 
-    // public void draw(Graphics g) {
-    //     for (IComponent figure : figures) {
-    //         figure.draw(g);
-    //     }
-    // }
-
-    // public void move(int dx, int dy) {
-    //     for (IComponent figure : figures) {
-    //         figure.move(dx, dy);
-    //     }
-    // }
-
     public Group findGroup(IComponent figure) {
         for (IComponent fig : figures) {
             if (fig.equals(figure))
@@ -65,5 +52,8 @@ public class Group implements IComponent {
     @Override
     public void accept(IComponentVisitor iComponentVisitor) {
         iComponentVisitor.visit(this);
+        for (IComponent figure : figures) {
+            figure.accept(iComponentVisitor);
+        }
     }
 }

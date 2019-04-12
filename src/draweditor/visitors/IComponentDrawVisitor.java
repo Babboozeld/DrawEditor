@@ -1,11 +1,10 @@
 package draweditor.visitors;
 
+import java.awt.Graphics;
+
 import draweditor.components.Group;
-import draweditor.components.IComponent;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
-
-import java.awt.Graphics;
 
 public class IComponentDrawVisitor implements IComponentVisitor {
 
@@ -17,18 +16,23 @@ public class IComponentDrawVisitor implements IComponentVisitor {
 
     @Override
     public void visit(Group group) {
-        for (IComponent figure : group.getFigures()) {
-            figure.accept(this);
-        }
+
     }
 
     @Override
     public void visit(RectangleFigure rectangleFigure) {
-        rectangleFigure.draw(g);
+        this.g.setColor(rectangleFigure.color);
+        // Graphics2D g2 = (Graphics2D)g;
+        // https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
+        // g2.setStroke(new BasicStroke(7));
+        this.g.drawRect(rectangleFigure.left, rectangleFigure.top, rectangleFigure.width, rectangleFigure.height);
+        // g.fillRect(left, top, width, height);
     }
 
     @Override
     public void visit(EllipseFigure ellipseFigure) {
-        ellipseFigure.draw(g);
+        g.setColor(ellipseFigure.color);
+        g.drawOval(ellipseFigure.left, ellipseFigure.top, ellipseFigure.width, ellipseFigure.height);
+        // g.fillOval(left, top, width, height);
     }
 }

@@ -3,7 +3,6 @@ package draweditor.commands;
 import java.util.List;
 
 import draweditor.DrawEditor;
-import draweditor.frame.components.ShapeList;
 import draweditor.components.IComponent;
 
 public class DrawCommand implements ICommand, IReversibleCommand {
