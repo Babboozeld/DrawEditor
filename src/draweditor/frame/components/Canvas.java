@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import draweditor.DrawEditor;
+import draweditor.visitors.IComponentDrawVisitor;
 
 public class Canvas extends JPanel {
 
@@ -17,6 +18,6 @@ public class Canvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.WHITE);
-        DrawEditor.getInstance().getFigures().draw(g); 
+        DrawEditor.getInstance().getFigures().accept(new IComponentDrawVisitor(g)); 
     }
 }

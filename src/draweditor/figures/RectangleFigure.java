@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import draweditor.visitors.IComponentVisitor;
+
 public class RectangleFigure extends AbstractFigure {
 
     private int left;
@@ -33,14 +35,20 @@ public class RectangleFigure extends AbstractFigure {
 
     public void draw(Graphics g) {
         g.setColor(color);
-        // Graphics2D g2 = (Graphics2D)g; https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
+        // Graphics2D g2 = (Graphics2D)g;
+        // https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
         // g2.setStroke(new BasicStroke(7));
         g.drawRect(left, top, width, height);
-        //g.fillRect(left, top, width, height);
+        // g.fillRect(left, top, width, height);
     }
 
     public void move(int dx, int dy) {
         left += dx;
         top += dy;
-    }  
+    }
+
+    @Override
+    public void accept(IComponentVisitor iComponentVisitor) {
+        iComponentVisitor.visit(this);
+    }
 }

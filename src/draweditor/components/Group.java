@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import draweditor.visitors.IComponentVisitor;
+
 public class Group implements IComponent {
 
     public final static String FigureType = "group";
@@ -35,17 +37,17 @@ public class Group implements IComponent {
         return null;
     }
 
-    public void draw(Graphics g) {
-        for (IComponent figure : figures) {
-            figure.draw(g);
-        }
-    }
+    // public void draw(Graphics g) {
+    //     for (IComponent figure : figures) {
+    //         figure.draw(g);
+    //     }
+    // }
 
-    public void move(int dx, int dy) {
-        for (IComponent figure : figures) {
-            figure.move(dx, dy);
-        }
-    }
+    // public void move(int dx, int dy) {
+    //     for (IComponent figure : figures) {
+    //         figure.move(dx, dy);
+    //     }
+    // }
 
     public Group findGroup(IComponent figure) {
         for (IComponent fig : figures) {
@@ -53,9 +55,15 @@ public class Group implements IComponent {
                 return this;
             if (fig instanceof Group) {
                 Group result = ((Group) fig).findGroup(figure);
-                if (result != null) return result; 
+                if (result != null)
+                    return result;
             }
         }
         return null;
-    }  
+    }
+
+    @Override
+    public void accept(IComponentVisitor iComponentVisitor) {
+        iComponentVisitor.visit(this);
+    }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import draweditor.figures.AbstractFigure;
+import draweditor.visitors.IComponentVisitor;
 
 public class EllipseFigure extends AbstractFigure {
 
@@ -30,17 +31,22 @@ public class EllipseFigure extends AbstractFigure {
         serialized.add(Integer.toString(this.width));
         serialized.add(Integer.toString(this.height));
         serialized.add(this.color.toString());
-        return serialized; 
+        return serialized;
     }
 
     public void draw(Graphics g) {
         g.setColor(color);
         g.drawOval(left, top, width, height);
-        //g.fillOval(left, top, width, height);
+        // g.fillOval(left, top, width, height);
     }
 
     public void move(int dx, int dy) {
         left += dx;
         top += dy;
-    }  
+    }
+
+    @Override
+    public void accept(IComponentVisitor iComponentVisitor) {
+        iComponentVisitor.visit(this);
+    }
 }

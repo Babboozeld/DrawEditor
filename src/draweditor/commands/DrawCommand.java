@@ -17,7 +17,7 @@ public class DrawCommand implements ICommand, IReversibleCommand {
     public void execute(DrawEditor draweditor) {
         List<IComponent> figures = draweditor.activeGroup.getFigures();
         figures.add(draweditor.activePosision, this.figure);
-        ShapeList.addItem(figure.getClass().getSimpleName());
+        //ShapeList.addItem(figure.getClass().getSimpleName());
         draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
     }
@@ -25,7 +25,7 @@ public class DrawCommand implements ICommand, IReversibleCommand {
     public void unexecute(DrawEditor draweditor) {
         draweditor.setActiveFigure(this.figure);
         draweditor.activeGroup.remove(this.figure);
-        ShapeList.deleteItem();
+        //ShapeList.deleteItem();
         draweditor.redraw();
         if (draweditor.activeGroup.getSize() != 0 && draweditor.activePosision != 0) {
             draweditor.setActiveFigure(draweditor.activeGroup.getFigures().get(draweditor.activePosision - 1));
