@@ -32,6 +32,7 @@ import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
 import draweditor.tools.MoveTool;
 import draweditor.tools.RectangleTool;
+import draweditor.tools.SelectTool;
 import draweditor.tools.TriangleTool;
 
 /*  note/to do:
@@ -140,6 +141,7 @@ public class DrawEditor extends JFrame {
         buttonTools.add(new TriangleTool());
         buttonTools.add(new LineTool());
         buttonTools.add(new MoveTool());
+        buttonTools.add(new SelectTool());
         //create and add all togglebuttons to panel:
         for (AbstractTool tool : buttonTools) {
             JToggleButton b = new ToolButton(tool);

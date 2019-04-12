@@ -8,12 +8,6 @@ import draweditor.visitors.IComponentVisitor;
 
 public class RectangleFigure extends AbstractFigure {
 
-    public int left;
-    public int top;
-    public int width;
-    public int height;
-    public Color color;
-
     public RectangleFigure(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;

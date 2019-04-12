@@ -56,4 +56,13 @@ public class Group implements IComponent {
             figure.accept(iComponentVisitor);
         }
     }
+
+    @Override
+    public IComponent findSelected(int x, int y) {
+        for (IComponent figure : figures) {
+            IComponent selected = figure.findSelected(x, y);
+            if (selected != null) return figure;
+        }
+        return null;
+    }
 }
