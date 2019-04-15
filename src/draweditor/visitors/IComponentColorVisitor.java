@@ -19,8 +19,8 @@ public class IComponentColorVisitor implements IComponentVisitor {
     @Override
     public void visit(Group group) {
         List<IComponent> figures = group.getFigures();
-        for (int i = figures.size() - 1; i >= 0 ; i--) {
-            figures.get(i).accept(this);
+        for (IComponent figure : figures) {
+            figure.accept(this);
         }
     }
 

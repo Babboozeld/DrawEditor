@@ -1,6 +1,9 @@
 package draweditor.visitors;
 
+import java.util.List;
+
 import draweditor.components.Group;
+import draweditor.components.IComponent;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -16,7 +19,10 @@ public class IComponentMoveVisitor implements IComponentVisitor {
 
     @Override
     public void visit(Group group) {
-
+        List<IComponent> figures = group.getFigures();
+        for (IComponent figure : figures) {
+            figure.accept(this);
+        }
     }
 
     @Override
