@@ -35,14 +35,12 @@ import draweditor.tools.RectangleTool;
 import draweditor.tools.SelectTool;
 import draweditor.tools.TriangleTool;
 
-/*  note/to do:
+/*  note
+    to do:
     - make sure first group is not removed/ is there always
-    - vgm moet je alle figures andersom in tree displayer (hoe dieper naar beneden hoe hoger op in het canvas het komt)
     - the implemented active system isn't great (esspesialy in how it is used in commands)
     - add a cap to how large te history list should be.
-    - if group is selected and item draw edit it to the back of list in group
-    to do:
-    -
+    - Filehandler fix with visitor pattern
     could:
     - load error popup in filehandler
 */

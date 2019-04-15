@@ -15,13 +15,10 @@ public class TempMoveCommand implements ICommand {
     }
 
     public void execute(DrawEditor draweditor) {
-        //IComponent avectedFigure = draweditor.activeFigure;
-        //avectedFigure.move(this.dx, this.dy);
         draweditor.activeFigure.accept(new IComponentMoveVisitor(this.dx, this.dy));
         draweditor.redraw();  
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                //avectedFigure.move(-dx, -dy);
                 draweditor.activeFigure.accept(new IComponentMoveVisitor(-dx, -dy));
             }
         });  
