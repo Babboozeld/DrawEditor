@@ -12,24 +12,23 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class ShapeList extends JPanel implements ListSelectionListener {
-    private static JList<String> list;
+    private static JList<ListEntry> list;
     static DefaultListModel<ListEntry> listModel = new DefaultListModel<ListEntry>();
 
     private static final String deleteString = "Delete";
     private static JButton deleteButton;
-    public DrawEditor DE;
     int count = 0;
 
     public ShapeList() {
         super(new BorderLayout());
 
-        JList<ListEntry> list1 = new JList<ListEntry>(listModel);
-        list1.setCellRenderer(new ListEntryCellRenderer());
-        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list1.setSelectedIndex(0);
-        list1.addListSelectionListener(this);
-        list1.setVisibleRowCount(5);
-        JScrollPane listScrollPane = new JScrollPane(list1);
+        list = new JList<ListEntry>(listModel);
+        list.setCellRenderer(new ListEntryCellRenderer());
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.addListSelectionListener(this);
+        list.setVisibleRowCount(5);
+        JScrollPane listScrollPane = new JScrollPane(list);
 
         deleteButton = new JButton(deleteString);
         deleteButton.setActionCommand(deleteString);
@@ -87,7 +86,7 @@ public class ShapeList extends JPanel implements ListSelectionListener {
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
             }
-            DE.execute(new DeleteCommand(DE.activeFigure));
+            DrawEditor.getInstance().execute(new DeleteCommand(DrawEditor.getInstance().activeFigure));
         }
     }
    
