@@ -3,38 +3,33 @@ package draweditor.frame.components;
 import draweditor.DrawEditor;
 import draweditor.commands.DeleteCommand;
 
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-
 import javax.swing.*;
 import javax.swing.event.*;
 
-import javax.imageio.ImageIO;
-
 public class ShapeList extends JPanel implements ListSelectionListener {
-
     private static JList<String> list;
-    private static DefaultListModel<String> listModel;
+    static DefaultListModel<ListEntry> listModel = new DefaultListModel<ListEntry>();
 
     private static final String deleteString = "Delete";
     private static JButton deleteButton;
-    private static String NewItem;
-    private static int a = 1;
     public DrawEditor DE;
+    int count = 0;
 
-    public ShapeList(DrawEditor DE) {
+    public ShapeList() {
         super(new BorderLayout());
-        this.DE = DE;
-        listModel = new DefaultListModel<String>();
 
-        list = new JList<String>(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
-        list.addListSelectionListener(this);
-        list.setVisibleRowCount(5);
-        JScrollPane listScrollPane = new JScrollPane(list);
+        JList<ListEntry> list1 = new JList<ListEntry>(listModel);
+        list1.setCellRenderer(new ListEntryCellRenderer());
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setSelectedIndex(0);
+        list1.addListSelectionListener(this);
+        list1.setVisibleRowCount(5);
+        JScrollPane listScrollPane = new JScrollPane(list1);
 
         deleteButton = new JButton(deleteString);
         deleteButton.setActionCommand(deleteString);
@@ -52,48 +47,28 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         add(buttonPane, BorderLayout.PAGE_END);
     }
 
-    public static void addItem(String figurestring) // Add item in ShapeList
-    {
+    private static ShapeList instance = new ShapeList();
+    public static ShapeList getInstance(){
+        return instance;
+    }
+
+    public void addItem(String figurestring) {
         String path = null;
+        String description = null;
         switch (figurestring) {
         case "RectangleFigure":
-            path = ("/images/rectangle.png");
-            // ("/images/rectangle.png", "rectangle");
+            path = ("src/images/rectangle.png");
+            description = ("rectangle");
             break;
         case "EllipseFigure":
-            path = ("/images/ellipse.png");
-            // ("/images/ellipse.png", "ellipse");
+            path = ("src/images/ellipse.png");
+            description = ("ellipse");
             break;
         }
+        count++;
 
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        DefaultListModel<ImageIcon> listModel = new DefaultListModel<ImageIcon>();
-        int count = 0;
-        ImageIcon ii = null;
-        for (int i = 0; i < listOfFiles.length; i++) {
-            String name = listOfFiles[i].toString();
-            if (name.endsWith("jpg")) {
-                try {
-                    ii = new ImageIcon(ImageIO.read(listOfFiles[i]));
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                listModel.add(count++, ii);
-            }
-        }
-        NewItem = figurestring + a;
-        a++;
-        if (ii != null) listModel.add(a, ii);
+        listModel.addElement(new ListEntry(description + count, new ImageIcon(path)));
     }
-
-    public static void deleteItem() // Delete item in ShapeList
-    {
-        listModel.removeElementAt(listModel.size() - 1);
-        a--;
-    }
- 
     class DeleteListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int index = list.getSelectedIndex();
@@ -128,3 +103,52 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         }
     }
 }
+
+class ListEntry
+{
+    private String value;
+    private ImageIcon icon;
+      
+    public ListEntry(String value, ImageIcon icon) {
+        this.value = value;
+        this.icon = icon;
+    }
+      
+    public String getValue() {
+        return value;
+    }
+      
+    public ImageIcon getIcon() {
+        return icon;
+    }
+      
+    public String toString() {
+        return value;
+    }
+}
+      
+class ListEntryCellRenderer extends JLabel implements ListCellRenderer
+{
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        ListEntry entry = (ListEntry) value;
+      
+        setText(value.toString());
+        setIcon(entry.getIcon());
+       
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        }
+        else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+      
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        setOpaque(true);
+      
+        return this;
+    }
+}
+
