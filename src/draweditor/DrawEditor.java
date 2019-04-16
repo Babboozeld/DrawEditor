@@ -112,7 +112,7 @@ public class DrawEditor extends JFrame {
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
-        JComponent newContentPane = new ShapeList();
+        JComponent newContentPane = ShapeList.getInstance();
         newContentPane.setOpaque(true);
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
         leftBar.add(newContentPane);

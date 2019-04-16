@@ -12,11 +12,12 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class ShapeList extends JPanel implements ListSelectionListener {
-    private static JList<ListEntry> list;
-    static DefaultListModel<ListEntry> listModel = new DefaultListModel<ListEntry>();
+    private JList<ListEntry> list;
+    private DefaultListModel<ListEntry> listModel = new DefaultListModel<ListEntry>();
 
-    private static final String deleteString = "Delete";
-    private static JButton deleteButton;
+    private final String deleteString = "Delete";
+    private JButton deleteButton;
+    
     int count = 0;
 
     public ShapeList() {
@@ -68,6 +69,7 @@ public class ShapeList extends JPanel implements ListSelectionListener {
 
         listModel.addElement(new ListEntry(description + count, new ImageIcon(path)));
     }
+
     class DeleteListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int index = list.getSelectedIndex();
