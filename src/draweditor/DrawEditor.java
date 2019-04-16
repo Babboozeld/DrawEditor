@@ -28,6 +28,7 @@ import draweditor.frame.handlers.KeyHandler;
 import draweditor.frame.handlers.MouseHandler;
 import draweditor.frame.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
+import draweditor.tools.BucketTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
 import draweditor.tools.MoveTool;
@@ -140,6 +141,7 @@ public class DrawEditor extends JFrame {
         buttonTools.add(new LineTool());
         buttonTools.add(new MoveTool());
         buttonTools.add(new SelectTool());
+        buttonTools.add(new BucketTool());
         //create and add all togglebuttons to panel:
         for (AbstractTool tool : buttonTools) {
             JToggleButton b = new ToolButton(tool);
