@@ -127,13 +127,13 @@ class ListEntry
     }
 }
       
-class ListEntryCellRenderer extends JLabel implements ListCellRenderer
+class ListEntryCellRenderer extends JLabel implements ListCellRenderer<ListEntry>
 {
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        ListEntry entry = (ListEntry) value;
+    @Override
+    public Component getListCellRendererComponent(JList<? extends ListEntry> list, ListEntry value, int index, boolean isSelected, boolean cellHasFocus) {
       
         setText(value.toString());
-        setIcon(entry.getIcon());
+        setIcon(value.getIcon());
        
         if (isSelected) {
             setBackground(list.getSelectionBackground());
