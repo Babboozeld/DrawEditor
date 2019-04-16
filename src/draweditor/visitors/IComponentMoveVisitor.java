@@ -4,6 +4,10 @@ import java.util.List;
 
 import draweditor.components.Group;
 import draweditor.components.IComponent;
+import draweditor.decorators.BottomTextDecorator;
+import draweditor.decorators.LeftTextDecorator;
+import draweditor.decorators.RightTextDecorator;
+import draweditor.decorators.TopTextDecorator;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -35,5 +39,25 @@ public class IComponentMoveVisitor implements IComponentVisitor {
     public void visit(EllipseFigure ellipseFigure) {
         ellipseFigure.left += dx;
         ellipseFigure.top += dy;
+    }
+
+    @Override
+    public void visit(BottomTextDecorator bottomTextDecorator) {
+
+    }
+
+    @Override
+    public void visit(LeftTextDecorator leftTextDecorator) {
+
+    }
+
+    @Override
+    public void visit(RightTextDecorator rightTextDecorator) {
+
+    }
+
+    @Override
+    public void visit(TopTextDecorator topTextDecorator) {
+
     }
 }

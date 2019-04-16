@@ -157,7 +157,7 @@ public class DrawEditor extends JFrame {
         return figures;
     }
 
-    public void execute(ICommand command){
+    public void execute(ICommand command) {
         command.execute(this);
         if (command instanceof IReversibleCommand) { //add a cap to how large te list should be.
             if (lastExecutedCommand != null){
@@ -172,7 +172,7 @@ public class DrawEditor extends JFrame {
         }
     }
     //ctrl + z
-    public void unexecute(){
+    public void unexecute() {
         if (lastExecutedCommand != null){
             lastExecutedCommand.unexecute(this);
             int lastExecutedCommandIndex = commandsHistory.indexOf(lastExecutedCommand);
@@ -184,7 +184,7 @@ public class DrawEditor extends JFrame {
         }
     }
     //ctrl + shift + z
-    public void reverseExecute(){
+    public void reverseExecute() {
         int lastExecutedCommandIndex = lastExecutedCommand == null ? 0 : commandsHistory.indexOf(lastExecutedCommand);
         if (lastExecutedCommandIndex < commandsHistory.size() - 1) {
             lastExecutedCommand = commandsHistory.get(lastExecutedCommandIndex + 1);

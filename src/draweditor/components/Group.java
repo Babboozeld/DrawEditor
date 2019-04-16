@@ -3,6 +3,7 @@ package draweditor.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import draweditor.decorators.AbstractDecorator;
 import draweditor.visitors.IComponentVisitor;
 
 public class Group implements IComponent {
@@ -38,10 +39,14 @@ public class Group implements IComponent {
 
     public Group findGroup(IComponent figure) {
         for (IComponent fig : figures) {
-            if (fig.equals(figure))
+            if (fig.equals(figure)) {
                 return this;
+            }
+            if (fig instanceof AbstractDecorator) {
+                fig = ((AbstractDecorator)fig).component;
+            } 
             if (fig instanceof Group) {
-                Group result = ((Group) fig).findGroup(figure);
+                Group result = ((Group)fig).findGroup(figure);
                 if (result != null)
                     return result;
             }
