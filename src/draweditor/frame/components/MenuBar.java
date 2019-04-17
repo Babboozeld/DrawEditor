@@ -7,6 +7,8 @@ import javax.swing.*;
 
 import draweditor.DrawEditor;
 import draweditor.commands.DecoratorCommand;
+import draweditor.commands.LoadCommand;
+import draweditor.components.Group;
 import draweditor.decorators.AbstractDecorator;
 import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
@@ -151,7 +153,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_2, ActionEvent.ALT_MASK));
         menuItem.addActionListener(this);
-        menuItem.addActionListener((ActionEvent e) -> DrawEditor.getInstance().loadedFigures(FileHandler.ReadFile("../save.txt")));
+        menuItem.addActionListener((ActionEvent e) -> {
+            Group loadedGroup = FileHandler.ReadFile("../save.txt");
+            if (loadedGroup != null) DrawEditor.getInstance().execute(new LoadCommand(loadedGroup));
+        });
         menu.add(menuItem);
     }
 
