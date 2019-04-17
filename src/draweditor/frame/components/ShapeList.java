@@ -2,11 +2,16 @@ package draweditor.frame.components;
 
 import draweditor.DrawEditor;
 import draweditor.commands.DeleteCommand;
+import draweditor.tools.DragDropList;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -29,6 +34,10 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         list.setSelectedIndex(0);
         list.addListSelectionListener(this);
         list.setVisibleRowCount(5);
+        list.setDragEnabled(true);
+        list.setDropMode(DropMode.INSERT);
+        list.setTransferHandler(new MyListDropHandler(null));
+        new MyDragListener(null);
         JScrollPane listScrollPane = new JScrollPane(list);
 
         deleteButton = new JButton(deleteString);
@@ -42,7 +51,7 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
         buttonPane.add(Box.createHorizontalStrut(5));
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
+   
         add(listScrollPane, BorderLayout.CENTER);
         add(buttonPane, BorderLayout.PAGE_END);
     }
@@ -104,6 +113,86 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         }
     }
 }
+
+class MyDragListener implements DragSourceListener, DragGestureListener {
+    DragDropList list;
+  
+    DragSource ds = new DragSource();
+  
+    public MyDragListener(DragDropList list) {
+      this.list = list;
+      DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(list,
+          DnDConstants.ACTION_MOVE, this);
+  
+    }
+  
+    public void dragGestureRecognized(DragGestureEvent dge) {
+      StringSelection transferable = new StringSelection(Integer.toString(list.getSelectedIndex()));
+      ds.startDrag(dge, DragSource.DefaultCopyDrop, transferable, this);
+    }
+  
+    public void dragEnter(DragSourceDragEvent dsde) {
+    }
+  
+    public void dragExit(DragSourceEvent dse) {
+    }
+  
+    public void dragOver(DragSourceDragEvent dsde) {
+    }
+  
+    public void dragDropEnd(DragSourceDropEvent dsde) {
+      if (dsde.getDropSuccess()) {
+        System.out.println("Succeeded");
+      } else {
+        System.out.println("Failed");
+      }
+    }
+  
+    public void dropActionChanged(DragSourceDragEvent dsde) {
+    }
+  }
+  
+  class MyListDropHandler extends TransferHandler {
+    DragDropList list;
+  
+    public MyListDropHandler(DragDropList list) {
+      this.list = list;
+    }
+  
+    public boolean canImport(TransferHandler.TransferSupport support) {
+      if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+        return false;
+      }
+      JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+      if (dl.getIndex() == -1) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  
+    public boolean importData(TransferHandler.TransferSupport support) {
+      if (!canImport(support)) {
+        return false;
+      }
+  
+      Transferable transferable = support.getTransferable();
+      String indexString;
+      try {
+        indexString = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+      } catch (Exception e) {
+        return false;
+      }
+  
+      int index = Integer.parseInt(indexString);
+      JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+      int dropTargetIndex = dl.getIndex();
+  
+      System.out.println(dropTargetIndex + " : ");
+      System.out.println("inserted");
+      return true;
+    }
+  }
 
 class ListEntry
 {
