@@ -67,14 +67,15 @@ public class FileHandler {
                         case "basicfigure":
                             switch (arguments[2]) {
                                 case "rectangle":
-                                    entry.fillGroup(BasicFigure.GetInstanceRectangle().SetAttributes(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
-                                        Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), new Color(Integer.parseInt(arguments[6]))));
-                                    break;
+                                    entry.fillGroup(BasicFigure.GetInstanceRectangle().SetAttributes(Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), 
+                                        Integer.parseInt(arguments[5]), Integer.parseInt(arguments[6]), new Color(Integer.parseInt(arguments[7]))));
+                                    break; 
                                 case "ellipse":
-                                    entry.fillGroup(BasicFigure.GetInstanceEllipse().SetAttributes(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
-                                        Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), new Color(Integer.parseInt(arguments[6]))));
+                                    entry.fillGroup(BasicFigure.GetInstanceEllipse().SetAttributes(Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), 
+                                        Integer.parseInt(arguments[5]), Integer.parseInt(arguments[6]), new Color(Integer.parseInt(arguments[7]))));
                                     break;
                             }
+                            break;
                         case "rectangle":
                             entry.fillGroup(new RectangleFigure(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
                                 Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), new Color(Integer.parseInt(arguments[6]))));

@@ -12,11 +12,6 @@ public class BasicFigure extends AbstractFigure {
     public IToStringStrategy toStringStrat;
     public IDrawStrategy drawStrat;
 
-    public BasicFigure(IToStringStrategy toStringStrat, IDrawStrategy drawStrat) {
-        this.toStringStrat = toStringStrat;
-        this.drawStrat = drawStrat;
-    }
-
     public IComponent SetAttributes(int left, int top, int width, int height, Color color) {
         this.left = left;
         this.top = top;
@@ -24,6 +19,11 @@ public class BasicFigure extends AbstractFigure {
         this.height = height;
         this.color = color;
         return this;
+    }
+
+    private BasicFigure(IToStringStrategy toStringStrat, IDrawStrategy drawStrat) {
+        this.toStringStrat = toStringStrat;
+        this.drawStrat = drawStrat;
     }
     
     public static BasicFigure GetInstanceRectangle() {
