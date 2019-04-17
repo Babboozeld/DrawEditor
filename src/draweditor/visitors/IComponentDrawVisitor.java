@@ -14,6 +14,7 @@ import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
 import draweditor.figures.AbstractFigure;
+import draweditor.figures.BasisFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -34,6 +35,11 @@ public class IComponentDrawVisitor implements IComponentVisitor {
     }
 
     @Override
+    public void visit(BasisFigure basisFigure) {
+        basisFigure.drawStrat.doOperation(basisFigure, this.g);
+    }
+
+    @Override
     public void visit(RectangleFigure rectangleFigure) {
         // https://stackoverflow.com/questions/4219511/draw-rectangle-border-thickness
         // Graphics2D g2 = (Graphics2D)g;
@@ -50,7 +56,7 @@ public class IComponentDrawVisitor implements IComponentVisitor {
         g.setColor(ellipseFigure.color);
         g.fillOval(ellipseFigure.left, ellipseFigure.top, ellipseFigure.width, ellipseFigure.height);
     }
-    
+
     @Override
     public void visit(BottomTextDecorator bottomTextDecorator) {
         if (g instanceof Graphics2D && bottomTextDecorator.component instanceof AbstractFigure) {
@@ -59,7 +65,9 @@ public class IComponentDrawVisitor implements IComponentVisitor {
             AbstractFigure figure = (AbstractFigure) (bottomTextDecorator.component);
             g.setColor(Color.BLACK);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2.drawString(bottomTextDecorator.text, figure.left + (figure.width - metrics.stringWidth(bottomTextDecorator.text)) / 2, figure.top + figure.height + metrics.getHeight());
+            g2.drawString(bottomTextDecorator.text,
+                    figure.left + (figure.width - metrics.stringWidth(bottomTextDecorator.text)) / 2,
+                    figure.top + figure.height + metrics.getHeight());
         }
     }
 
@@ -71,7 +79,8 @@ public class IComponentDrawVisitor implements IComponentVisitor {
             AbstractFigure figure = (AbstractFigure) (leftTextDecorator.component);
             g.setColor(Color.BLACK);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2.drawString(leftTextDecorator.text, figure.left - metrics.stringWidth(leftTextDecorator.text) - 2, figure.top + (figure.height + metrics.getHeight()) / 2);
+            g2.drawString(leftTextDecorator.text, figure.left - metrics.stringWidth(leftTextDecorator.text) - 2,
+                    figure.top + (figure.height + metrics.getHeight()) / 2);
         }
     }
 
@@ -83,7 +92,8 @@ public class IComponentDrawVisitor implements IComponentVisitor {
             AbstractFigure figure = (AbstractFigure) (rightTextDecorator.component);
             g.setColor(Color.BLACK);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2.drawString(rightTextDecorator.text, figure.left + figure.width + 2 , figure.top + (figure.height + metrics.getHeight()) / 2);
+            g2.drawString(rightTextDecorator.text, figure.left + figure.width + 2,
+                    figure.top + (figure.height + metrics.getHeight()) / 2);
         }
     }
 
@@ -95,7 +105,8 @@ public class IComponentDrawVisitor implements IComponentVisitor {
             AbstractFigure figure = (AbstractFigure) (topTextDecorator.component);
             g.setColor(Color.BLACK);
             g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2.drawString(topTextDecorator.text, figure.left + (figure.width - metrics.stringWidth(topTextDecorator.text)) / 2, figure.top - 2);
+            g2.drawString(topTextDecorator.text,
+                    figure.left + (figure.width - metrics.stringWidth(topTextDecorator.text)) / 2, figure.top - 2);
         }
     }
 }

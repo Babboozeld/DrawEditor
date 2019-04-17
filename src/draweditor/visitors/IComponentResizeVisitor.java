@@ -8,6 +8,7 @@ import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
+import draweditor.figures.BasisFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -26,6 +27,12 @@ public class IComponentResizeVisitor implements IComponentVisitor {
         for (IComponent figure : figures) {
             figure.accept(this);
         }
+    }
+
+    @Override
+    public void visit(BasisFigure basisFigure) {
+        basisFigure.width += dx;
+        basisFigure.height += dy;
     }
 
     @Override

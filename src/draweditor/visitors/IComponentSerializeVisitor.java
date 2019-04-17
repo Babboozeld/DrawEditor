@@ -9,6 +9,7 @@ import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
+import draweditor.figures.BasisFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -19,6 +20,7 @@ public class IComponentSerializeVisitor implements IComponentVisitor {
     public IComponentSerializeVisitor(IComponent figures) {
         figures.accept(this);
     }
+
     public List<String> getSerialized() {
         return serialized;
     }
@@ -32,15 +34,21 @@ public class IComponentSerializeVisitor implements IComponentVisitor {
     }
 
     @Override
+    public void visit(BasisFigure basisFigure) {
+        serialized.add("shape basisFigure " + basisFigure.toStringStrat.doOperation() + " " + basisFigure.left + " " + basisFigure.top + " " + basisFigure.width
+        + " " + basisFigure.height + " " + String.valueOf(basisFigure.color.getRGB()));
+    }
+
+    @Override
     public void visit(RectangleFigure rectangleFigure) {
-        serialized.add("shape rectangle " + rectangleFigure.left + " " + rectangleFigure.top + " " + rectangleFigure.width +
-            " " + rectangleFigure.height + " " + String.valueOf(rectangleFigure.color.getRGB()));
+        serialized.add("shape rectangle " + rectangleFigure.left + " " + rectangleFigure.top + " " + rectangleFigure.width
+                        + " " + rectangleFigure.height + " " + String.valueOf(rectangleFigure.color.getRGB()));
     }
 
     @Override
     public void visit(EllipseFigure ellipseFigure) {
-        serialized.add("shape ellipse " + ellipseFigure.left + " " + ellipseFigure.top + " " + ellipseFigure.width +
-            " " + ellipseFigure.height + " " + String.valueOf(ellipseFigure.color.getRGB()));
+        serialized.add("shape ellipse " + ellipseFigure.left + " " + ellipseFigure.top + " " + ellipseFigure.width + " "
+                + ellipseFigure.height + " " + String.valueOf(ellipseFigure.color.getRGB()));
     }
 
     @Override
@@ -61,5 +69,5 @@ public class IComponentSerializeVisitor implements IComponentVisitor {
     @Override
     public void visit(TopTextDecorator topTextDecorator) {
         serialized.add("ornament top " + topTextDecorator.text);
-    }  
+    }
 }
