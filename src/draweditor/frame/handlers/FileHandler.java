@@ -9,12 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
-import draweditor.components.*;
-import draweditor.figures.*;
+import draweditor.components.Group;
+import draweditor.components.IComponent;
+import draweditor.decorators.BottomTextDecorator;
+import draweditor.decorators.LeftTextDecorator;
+import draweditor.decorators.RightTextDecorator;
+import draweditor.decorators.TopTextDecorator;
+import draweditor.figures.EllipseFigure;
+import draweditor.figures.RectangleFigure;
+import draweditor.visitors.IComponentSerializeVisitor;
 
 //https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html
 public class FileHandler {
@@ -41,53 +45,77 @@ public class FileHandler {
 
     //https://stackoverflow.com/questions/3527216/accessing-the-last-entry-in-a-map
     public static Group ReadFile(String path) {
-        NavigableMap<Group, Integer> pandingGroups = new TreeMap<Group, Integer>();
-
+        List<PendingGroup> pandingGroups = new ArrayList<PendingGroup>();    
         List<String> FileTextLines = LoadFile(path);
         for (String line : FileTextLines) {
             String[] arguments = line.split(" ");
-
-            if (arguments[0] == "group"){
-                pandingGroups.put(new Group(), Integer.parseInt(arguments[1]));
-            } else {
-                IComponent pandingFigure = null;
-                switch (arguments[0]) {
-                    case "rectangle":
-                    pandingFigure = (IComponent)new RectangleFigure(Integer.parseInt(arguments[1]), Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), Integer.parseInt(arguments[4]), Color.getColor(arguments[5]));
-                        break;
-                }
-
-                Entry<Group, Integer> entry = pandingGroups.lastEntry();
-                Group deepestGroup = entry.getKey();
-                deepestGroup.add(pandingFigure);
-                int entrysLeft = entry.getValue();
-                if (entrysLeft == 1){
-                    if (pandingGroups.size() == 1){
-                        return deepestGroup;
-                    } else {
-                        pandingGroups.remove(entry.getKey());
-                        pandingGroups.lastEntry().getKey().add(deepestGroup);
+            switch (arguments[0]) {
+                case "group":
+                    pandingGroups.add(new PendingGroup(new Group(), Integer.parseInt(arguments[1])));
+                    break;
+                case "shape":
+                    PendingGroup entry = pandingGroups.get(pandingGroups.size() - 1);
+                    //check if list is filled
+                    if (entry.getValue() == 0) {
+                        Group filledGroup = entry.getGroup();
+                        pandingGroups.remove(entry);
+                        entry = pandingGroups.get(pandingGroups.size() - 1);
+                        entry.getGroup().add(filledGroup);
                     }
-                } else {
-                    entrysLeft--;
-                    entry.setValue(entrysLeft);
-                }
+                    //add shape to group
+                    switch (arguments[1]) {
+                        case "rectangle":
+                            entry.fillGroup(new RectangleFigure(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
+                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), Color.getColor(arguments[6])));
+                            break;
+                        case "ellipse":
+                            entry.fillGroup(new EllipseFigure(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
+                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), Color.getColor(arguments[6])));
+                            break;
+                    }
+                    break;
+                case "ornament":
+                    List<IComponent> figures = pandingGroups.get(pandingGroups.size() - 1).getGroup().getFigures();
+                    int lastIndex = figures.size() - 1;
+                    switch (arguments[1]) {
+                        case "bottom":
+                            figures.set(lastIndex, new BottomTextDecorator(figures.get(lastIndex)));
+                            break;
+                        case "left":
+                            figures.set(lastIndex, new LeftTextDecorator(figures.get(lastIndex)));
+                            break;
+                        case "right":
+                            figures.set(lastIndex, new RightTextDecorator(figures.get(lastIndex)));
+                            break;
+                        case "top":
+                            figures.set(lastIndex, new TopTextDecorator(figures.get(lastIndex)));
+                            break;
+                    }
+                    break;
             }
+           
         }
-
-        return null;
+        while (pandingGroups.size() > 1) {
+            PendingGroup filledGroup = pandingGroups.get(pandingGroups.size() - 1);
+            pandingGroups.remove(filledGroup);
+            PendingGroup entry = pandingGroups.get(pandingGroups.size() - 1);
+            entry.getGroup().add(filledGroup.getGroup());
+        }
+        return pandingGroups.get(0).getGroup();
     }
 
-    public static void SaveFile(List<IComponent> figures, String path){
+    public static void SaveFile(IComponent figures, String path){
         try {
+            List<String> serialized = new IComponentSerializeVisitor(figures).getSerialized();
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
 
-            for (IComponent figure : figures) {
-                bufferedWriter.write(String.join(" ", figure.Serialize()));
+            for (String component : serialized) {
+                bufferedWriter.write(component);
                 bufferedWriter.newLine();
             }
 
             bufferedWriter.close();
+            System.out.println("succes");
         }
         catch(IOException ex) {
             System.out.println("Error writing to file '" + path + "'");

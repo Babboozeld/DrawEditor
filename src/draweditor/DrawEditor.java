@@ -211,6 +211,12 @@ public class DrawEditor extends JFrame {
             }
         }
     }  
+
+    public void loadedFigures(Group group){
+        figures = group;
+        setActiveFigure(group);
+        redraw();
+    }
 }
 
 //https://stackoverflow.com/questions/147181/how-can-i-convert-my-java-program-to-an-exe-file

@@ -12,6 +12,7 @@ import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
+import draweditor.frame.handlers.FileHandler;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
@@ -129,6 +130,28 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_2, ActionEvent.ALT_MASK));
         menuItem.addActionListener(this);
+        menu.add(menuItem);
+
+        /* menu for saving */
+        menu = new JMenu("File");
+        menu.setMnemonic(KeyEvent.VK_C);
+        menu.getAccessibleContext().setAccessibleDescription(
+        "This menu is for saving");
+        
+        add(menu);
+
+        menuItem = new JMenuItem("Save");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_2, ActionEvent.ALT_MASK));
+        menuItem.addActionListener(this);
+        menuItem.addActionListener((ActionEvent e) -> FileHandler.SaveFile(DrawEditor.getInstance().getFigures(), "../save.txt"));
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Load");
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_2, ActionEvent.ALT_MASK));
+        menuItem.addActionListener(this);
+        menuItem.addActionListener((ActionEvent e) -> DrawEditor.getInstance().loadedFigures(FileHandler.ReadFile("../save.txt")));
         menu.add(menuItem);
     }
 
