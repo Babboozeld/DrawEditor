@@ -1,0 +1,209 @@
+package draweditor.tools; // http://www.java2s.com/Tutorial/Java/0240__Swing/Usedraganddroptoreorderalist.htm
+
+import java.awt.Component;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
+
+import javax.swing.DefaultListModel;
+import javax.swing.DropMode;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
+
+public class ComponentList extends JScrollPane {
+
+  private DefaultListModel<ListEntry> listmodel;
+  private JList<ListEntry> list;
+  public int count = 0;
+
+  public ComponentList(JList<ListEntry> list) {
+    super(list);
+    listmodel = (DefaultListModel<ListEntry>)(list.getModel());
+    this.list = list;
+    list.setDragEnabled(true);
+    list.setDropMode(DropMode.INSERT);
+    list.setCellRenderer(new ListEntryCellRenderer());
+    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    //list.setSelectedIndex(0);
+    //list.addListSelectionListener(this);
+    list.setTransferHandler(new MyListDropHandler(this));
+    new MyDragListener(list);
+  }
+
+  private static ComponentList instance = new ComponentList(new JList<ListEntry>(new DefaultListModel<ListEntry>()));
+  public static ComponentList getInstance() {
+      return instance;
+  }
+
+
+  public void addItem(String figurestring) {
+    String path = null;
+    String description = null;
+    switch (figurestring) {
+    case "RectangleFigure":
+        path = ("src/images/rectangle.png");
+        description = ("rectangle");
+        break;
+    case "EllipseFigure":
+        path = ("src/images/ellipse.png");
+        description = ("ellipse");
+        break;
+    }
+    count++;
+
+    listmodel.addElement(new ListEntry(description + count, new ImageIcon(path)));
+  }
+
+/* public void valueChanged(ListSelectionEvent e) {
+    if (e.getValueIsAdjusting() == false) {
+
+        if (list.getSelectedIndex() == -1) {
+            deleteButton.setEnabled(false);
+
+        } else {
+            deleteButton.setEnabled(true);
+        }
+    }
+} */
+
+}
+
+class ListEntryCellRenderer extends JLabel implements ListCellRenderer<ListEntry>
+{
+    @Override
+    public Component getListCellRendererComponent(JList<? extends ListEntry> list, ListEntry value, int index, boolean isSelected, boolean cellHasFocus) {
+      
+        setText(value.toString());
+        setIcon(value.getIcon());
+       
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        }
+        else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+      
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        setOpaque(true);
+      
+        return this;
+    }
+}
+
+class MyDragListener implements DragSourceListener, DragGestureListener {
+  
+  private JList<ListEntry> list;
+  private DragSource dragSource = new DragSource();
+
+  public MyDragListener(JList<ListEntry> list) {
+    this.list = list;
+    DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(list, DnDConstants.ACTION_MOVE, this);
+  }
+
+  public void dragGestureRecognized(DragGestureEvent dge) {
+    StringSelection transferable = new StringSelection(Integer.toString(list.getSelectedIndex()));
+    dragSource.startDrag(dge, DragSource.DefaultCopyDrop, transferable, this);
+  }
+
+  public void dragEnter(DragSourceDragEvent dsde) {
+  }
+
+  public void dragExit(DragSourceEvent dse) {
+  }
+
+  public void dragOver(DragSourceDragEvent dsde) {
+  }
+
+  public void dragDropEnd(DragSourceDropEvent dsde) {
+    if (dsde.getDropSuccess()) {
+      System.out.println("Succeeded");
+    } else {
+      System.out.println("Failed");
+    }
+  }
+
+  public void dropActionChanged(DragSourceDragEvent dsde) {
+  }
+}
+
+class MyListDropHandler extends TransferHandler {
+  ComponentList list;
+
+  public MyListDropHandler(ComponentList list) {
+    this.list = list;
+  }
+
+  public boolean canImport(TransferHandler.TransferSupport support) {
+    if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+      return false;
+    }
+    JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+    if (dl.getIndex() == -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public boolean importData(TransferHandler.TransferSupport support) {
+    if (!canImport(support)) {
+      return false;
+    }
+
+    Transferable transferable = support.getTransferable();
+    String indexString;
+    try {
+      indexString = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+    } catch (Exception e) {
+      return false;
+    }
+
+    int index = Integer.parseInt(indexString);
+    JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+    int dropTargetIndex = dl.getIndex();
+
+    System.out.println(dropTargetIndex + " : ");
+    System.out.println("inserted");
+    return true;
+  }
+}
+
+class ListEntry
+{
+    private String value;
+    private ImageIcon icon;
+      
+    public ListEntry(String value, ImageIcon icon) {
+        this.value = value;
+        this.icon = icon;
+    }
+      
+    public String getValue() {
+        return value;
+    }
+      
+    public ImageIcon getIcon() {
+        return icon;
+    }
+      
+    public String toString() {
+        return value;
+    }
+}

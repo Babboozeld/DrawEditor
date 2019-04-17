@@ -5,7 +5,7 @@ import java.util.List;
 import draweditor.DrawEditor;
 import draweditor.components.Group;
 import draweditor.components.IComponent;
-import draweditor.frame.components.ShapeList;
+import draweditor.tools.ComponentList;
 
 public class DrawCommand implements ICommand, IReversibleCommand {
 
@@ -23,7 +23,7 @@ public class DrawCommand implements ICommand, IReversibleCommand {
     public void execute(DrawEditor draweditor) {
         List<IComponent> figures = this.group.getFigures();
         figures.add(this.position, this.figure);
-        ShapeList.getInstance().addItem(figure.getClass().getSimpleName());
+        ComponentList.getInstance().addItem(figure.getClass().getSimpleName());
         draweditor.redraw();
         draweditor.setActiveFigure(this.figure);
     }

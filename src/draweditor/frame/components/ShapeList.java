@@ -1,20 +1,30 @@
 package draweditor.frame.components;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.DropMode;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import draweditor.DrawEditor;
 import draweditor.commands.DeleteCommand;
-import draweditor.tools.DragDropList;
-
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ImageIcon;
-import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
 
 public class ShapeList extends JPanel implements ListSelectionListener {
     private JList<ListEntry> list;
@@ -36,8 +46,8 @@ public class ShapeList extends JPanel implements ListSelectionListener {
         list.setVisibleRowCount(5);
         list.setDragEnabled(true);
         list.setDropMode(DropMode.INSERT);
-        list.setTransferHandler(new MyListDropHandler(null));
-        new MyDragListener(null);
+        //list.setTransferHandler(new MyListDropHandler(null));
+        //new MyDragListener(null);
         JScrollPane listScrollPane = new JScrollPane(list);
 
         deleteButton = new JButton(deleteString);
@@ -114,85 +124,85 @@ public class ShapeList extends JPanel implements ListSelectionListener {
     }
 }
 
-class MyDragListener implements DragSourceListener, DragGestureListener {
-    DragDropList list;
+// class MyDragListener implements DragSourceListener, DragGestureListener {
+//     DragDropList list;
   
-    DragSource ds = new DragSource();
+//     DragSource ds = new DragSource();
   
-    public MyDragListener(DragDropList list) {
-      this.list = list;
-      DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(list,
-          DnDConstants.ACTION_MOVE, this);
+//     public MyDragListener(DragDropList list) {
+//       this.list = list;
+//       DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(list,
+//           DnDConstants.ACTION_MOVE, this);
   
-    }
+//     }
   
-    public void dragGestureRecognized(DragGestureEvent dge) {
-      StringSelection transferable = new StringSelection(Integer.toString(list.getSelectedIndex()));
-      ds.startDrag(dge, DragSource.DefaultCopyDrop, transferable, this);
-    }
+//     public void dragGestureRecognized(DragGestureEvent dge) {
+//       StringSelection transferable = new StringSelection(Integer.toString(list.getSelectedIndex()));
+//       ds.startDrag(dge, DragSource.DefaultCopyDrop, transferable, this);
+//     }
   
-    public void dragEnter(DragSourceDragEvent dsde) {
-    }
+//     public void dragEnter(DragSourceDragEvent dsde) {
+//     }
   
-    public void dragExit(DragSourceEvent dse) {
-    }
+//     public void dragExit(DragSourceEvent dse) {
+//     }
   
-    public void dragOver(DragSourceDragEvent dsde) {
-    }
+//     public void dragOver(DragSourceDragEvent dsde) {
+//     }
   
-    public void dragDropEnd(DragSourceDropEvent dsde) {
-      if (dsde.getDropSuccess()) {
-        System.out.println("Succeeded");
-      } else {
-        System.out.println("Failed");
-      }
-    }
+//     public void dragDropEnd(DragSourceDropEvent dsde) {
+//       if (dsde.getDropSuccess()) {
+//         System.out.println("Succeeded");
+//       } else {
+//         System.out.println("Failed");
+//       }
+//     }
   
-    public void dropActionChanged(DragSourceDragEvent dsde) {
-    }
-  }
+//     public void dropActionChanged(DragSourceDragEvent dsde) {
+//     }
+//   }
   
-  class MyListDropHandler extends TransferHandler {
-    DragDropList list;
+//   class MyListDropHandler extends TransferHandler {
+//     DragDropList list;
   
-    public MyListDropHandler(DragDropList list) {
-      this.list = list;
-    }
+//     public MyListDropHandler(DragDropList list) {
+//       this.list = list;
+//     }
   
-    public boolean canImport(TransferHandler.TransferSupport support) {
-      if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-        return false;
-      }
-      JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
-      if (dl.getIndex() == -1) {
-        return false;
-      } else {
-        return true;
-      }
-    }
+//     public boolean canImport(TransferHandler.TransferSupport support) {
+//       if (!support.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+//         return false;
+//       }
+//       JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+//       if (dl.getIndex() == -1) {
+//         return false;
+//       } else {
+//         return true;
+//       }
+//     }
   
-    public boolean importData(TransferHandler.TransferSupport support) {
-      if (!canImport(support)) {
-        return false;
-      }
+//     public boolean importData(TransferHandler.TransferSupport support) {
+//       if (!canImport(support)) {
+//         return false;
+//       }
   
-      Transferable transferable = support.getTransferable();
-      String indexString;
-      try {
-        indexString = (String) transferable.getTransferData(DataFlavor.stringFlavor);
-      } catch (Exception e) {
-        return false;
-      }
+//       Transferable transferable = support.getTransferable();
+//       String indexString;
+//       try {
+//         indexString = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+//       } catch (Exception e) {
+//         return false;
+//       }
   
-      int index = Integer.parseInt(indexString);
-      JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
-      int dropTargetIndex = dl.getIndex();
+//       int index = Integer.parseInt(indexString);
+//       JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
+//       int dropTargetIndex = dl.getIndex();
   
-      System.out.println(dropTargetIndex + " : ");
-      System.out.println("inserted");
-      return true;
-    }
-  }
+//       System.out.println(dropTargetIndex + " : ");
+//       System.out.println("inserted");
+//       return true;
+//     }
+//   }
 
 class ListEntry
 {

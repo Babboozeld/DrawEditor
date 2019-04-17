@@ -12,23 +12,24 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import draweditor.commands.ICommand;
 import draweditor.commands.IReversibleCommand;
+import draweditor.components.Group;
+import draweditor.components.IComponent;
 import draweditor.frame.components.Canvas;
 import draweditor.frame.components.ColorPicker;
 import draweditor.frame.components.MenuBar;
-import draweditor.frame.components.ShapeList;
 import draweditor.frame.components.ToolButton;
-import draweditor.components.Group;
-import draweditor.components.IComponent;
 import draweditor.frame.handlers.FocusHandler;
 import draweditor.frame.handlers.KeyHandler;
 import draweditor.frame.handlers.MouseHandler;
 import draweditor.frame.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.BucketTool;
+import draweditor.tools.ComponentList;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
 import draweditor.tools.MoveTool;
@@ -112,10 +113,12 @@ public class DrawEditor extends JFrame {
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
-        JComponent newContentPane = ShapeList.getInstance();
+        JScrollPane newContentPane = ComponentList.getInstance();
+        //JComponent newContentPane = JPanel(new BorderLayout());
         newContentPane.setOpaque(true);
+        //newContentPane.setSize(new Dimension(300, 200));
         leftBar.add(colorPickerComponent, BorderLayout.PAGE_START);
-        leftBar.add(newContentPane);
+        leftBar.add(newContentPane, BorderLayout.CENTER);
         leftBar.setBackground(Color.RED);
 
         // make result
