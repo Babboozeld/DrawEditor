@@ -1,3 +1,0 @@
-group 1
-shape rectangle 84 143 113 104 java.awt.Color[r=0,g=0,b=0]
-ornament bottom Bottom

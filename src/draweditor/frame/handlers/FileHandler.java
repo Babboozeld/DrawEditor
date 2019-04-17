@@ -30,7 +30,6 @@ public class FileHandler {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
                 lines.add(line);
             }
             bufferedReader.close();
@@ -66,11 +65,11 @@ public class FileHandler {
                     switch (arguments[1]) {
                         case "rectangle":
                             entry.fillGroup(new RectangleFigure(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
-                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), Color.getColor(arguments[6])));
+                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), new Color(Integer.parseInt(arguments[6]))));
                             break;
                         case "ellipse":
                             entry.fillGroup(new EllipseFigure(Integer.parseInt(arguments[2]), Integer.parseInt(arguments[3]), 
-                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), Color.getColor(arguments[6])));
+                                Integer.parseInt(arguments[4]), Integer.parseInt(arguments[5]), new Color(Integer.parseInt(arguments[6]))));
                             break;
                     }
                     break;
@@ -115,7 +114,7 @@ public class FileHandler {
             }
 
             bufferedWriter.close();
-            System.out.println("succes");
+            System.out.println("Succes writing to file '" + path + "'");
         }
         catch(IOException ex) {
             System.out.println("Error writing to file '" + path + "'");
