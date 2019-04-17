@@ -8,7 +8,7 @@ import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
-import draweditor.figures.BasisFigure;
+import draweditor.figures.BasicFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -30,7 +30,7 @@ public class IComponentMoveVisitor implements IComponentVisitor {
     }
 
     @Override
-    public void visit(BasisFigure basisFigure) {
+    public void visit(BasicFigure basisFigure) {
         basisFigure.left += dx;
         basisFigure.top += dy;
     }

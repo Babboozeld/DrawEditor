@@ -9,7 +9,7 @@ import draweditor.decorators.BottomTextDecorator;
 import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
-import draweditor.figures.BasisFigure;
+import draweditor.figures.BasicFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -34,8 +34,8 @@ public class IComponentSerializeVisitor implements IComponentVisitor {
     }
 
     @Override
-    public void visit(BasisFigure basisFigure) {
-        serialized.add("shape basisFigure " + basisFigure.toStringStrat.doOperation() + " " + basisFigure.left + " " + basisFigure.top + " " + basisFigure.width
+    public void visit(BasicFigure basisFigure) {
+        serialized.add("shape basicfigure " + basisFigure.toStringStrat.doOperation() + " " + basisFigure.left + " " + basisFigure.top + " " + basisFigure.width
         + " " + basisFigure.height + " " + String.valueOf(basisFigure.color.getRGB()));
     }
 

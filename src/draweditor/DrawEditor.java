@@ -73,14 +73,14 @@ public class DrawEditor extends JFrame {
         d.drawCanvas.addMouseMotionListener(new MouseMotionHandler());
     }
 
-    private static String TITLE = "DrawEditor";
+    private final String TITLE = "DrawEditor";
 
     // https://docs.oracle.com/javase/tutorial/uiswing/painting/step3.html
     // https://stackoverflow.com/questions/17922443/drawing-canvas-on-jframe
     // https://docs.oracle.com/javase/tutorial/uiswing/layout/index.html
 
     private static DrawEditor instance = new DrawEditor();
-    public static DrawEditor getInstance(){
+    public static DrawEditor getInstance() {
         return instance;
     }
 

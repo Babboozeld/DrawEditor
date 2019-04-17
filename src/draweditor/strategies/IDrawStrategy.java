@@ -2,8 +2,8 @@ package draweditor.strategies;
 
 import java.awt.Graphics;
 
-import draweditor.figures.BasisFigure;
+import draweditor.figures.BasicFigure;
 
 public interface IDrawStrategy {
-    public void doOperation(BasisFigure basisFigure, Graphics g);
+    public void doOperation(BasicFigure basisFigure, Graphics g);
 }

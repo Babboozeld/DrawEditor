@@ -14,7 +14,7 @@ import draweditor.decorators.LeftTextDecorator;
 import draweditor.decorators.RightTextDecorator;
 import draweditor.decorators.TopTextDecorator;
 import draweditor.figures.AbstractFigure;
-import draweditor.figures.BasisFigure;
+import draweditor.figures.BasicFigure;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
@@ -35,7 +35,7 @@ public class IComponentDrawVisitor implements IComponentVisitor {
     }
 
     @Override
-    public void visit(BasisFigure basisFigure) {
+    public void visit(BasicFigure basisFigure) {
         basisFigure.drawStrat.doOperation(basisFigure, this.g);
     }
 
