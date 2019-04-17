@@ -34,6 +34,7 @@ import draweditor.tools.EllipseTool;
 import draweditor.tools.LineTool;
 import draweditor.tools.MoveTool;
 import draweditor.tools.RectangleTool;
+import draweditor.tools.ResizeTool;
 import draweditor.tools.SelectTool;
 import draweditor.tools.TriangleTool;
 
@@ -143,6 +144,7 @@ public class DrawEditor extends JFrame {
         buttonTools.add(new TriangleTool());
         buttonTools.add(new LineTool());
         buttonTools.add(new MoveTool());
+        buttonTools.add(new ResizeTool());
         buttonTools.add(new SelectTool());
         buttonTools.add(new BucketTool());
         //create and add all togglebuttons to panel:

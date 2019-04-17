@@ -2,26 +2,26 @@ package draweditor.commands;
 
 import draweditor.DrawEditor;
 import draweditor.components.IComponent;
-import draweditor.visitors.IComponentMoveVisitor;
+import draweditor.visitors.IComponentResizeVisitor;
 
-public class MoveCommand implements ICommand, IReversibleCommand {
-    
+public class ResizeCommand implements ICommand, IReversibleCommand {
+
     private IComponent figure;
     private int dx, dy;
 
-    public MoveCommand(int dx, int dy){
+    public ResizeCommand(int dx, int dy) {
         this.dx = dx;
         this.dy = dy;
         figure = DrawEditor.getInstance().activeFigure;
     }
 
     public void execute(DrawEditor draweditor) {
-        figure.accept(new IComponentMoveVisitor(this.dx, this.dy));
+        figure.accept(new IComponentResizeVisitor(this.dx, this.dy));
         draweditor.redraw();  
     }
 
     public void unexecute(DrawEditor draweditor) {
-        figure.accept(new IComponentMoveVisitor(-this.dx, -this.dy));
+        figure.accept(new IComponentResizeVisitor(-this.dx, -this.dy));
         draweditor.redraw(); 
     }
 }

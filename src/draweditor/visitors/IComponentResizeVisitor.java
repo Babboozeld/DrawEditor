@@ -11,11 +11,11 @@ import draweditor.decorators.TopTextDecorator;
 import draweditor.figures.EllipseFigure;
 import draweditor.figures.RectangleFigure;
 
-public class IComponentMoveVisitor implements IComponentVisitor {
+public class IComponentResizeVisitor implements IComponentVisitor {
 
     private int dx, dy;
 
-    public IComponentMoveVisitor(int dx, int dy) {
+    public IComponentResizeVisitor(int dx, int dy) {
         this.dx = dx;
         this.dy = dy;
     }
@@ -30,14 +30,14 @@ public class IComponentMoveVisitor implements IComponentVisitor {
 
     @Override
     public void visit(RectangleFigure rectangleFigure) {
-        rectangleFigure.left += dx;
-        rectangleFigure.top += dy;
+        rectangleFigure.width += dx;
+        rectangleFigure.height += dy;
     }
 
     @Override
     public void visit(EllipseFigure ellipseFigure) {
-        ellipseFigure.left += dx;
-        ellipseFigure.top += dy;
+        ellipseFigure.width += dx;
+        ellipseFigure.height += dy;
     }
 
     @Override
