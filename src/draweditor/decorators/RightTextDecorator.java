@@ -1,7 +1,5 @@
 package draweditor.decorators;
 
-import java.util.List;
-
 import draweditor.components.Group;
 import draweditor.components.IComponent;
 import draweditor.visitors.IComponentVisitor;
@@ -17,11 +15,6 @@ public class RightTextDecorator extends AbstractDecorator {
         } else {
             component = figure;
         }
-    }
-
-    @Override
-    public List<String> Serialize() {
-        return null;
     }
 
     public boolean correctComponent() {

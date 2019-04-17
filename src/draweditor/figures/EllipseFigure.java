@@ -1,8 +1,6 @@
 package draweditor.figures;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import draweditor.figures.AbstractFigure;
 import draweditor.visitors.IComponentVisitor;
@@ -15,16 +13,6 @@ public class EllipseFigure extends AbstractFigure {
         this.width = width;
         this.height = height;
         this.color = color;
-    }
-
-    public List<String> Serialize() {
-        List<String> serialized = new ArrayList<String>();
-        serialized.add(Integer.toString(this.left));
-        serialized.add(Integer.toString(this.top));
-        serialized.add(Integer.toString(this.width));
-        serialized.add(Integer.toString(this.height));
-        serialized.add(this.color.toString());
-        return serialized;
     }
 
     @Override
