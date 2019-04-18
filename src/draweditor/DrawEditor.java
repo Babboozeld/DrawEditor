@@ -12,7 +12,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import draweditor.commands.ICommand;
@@ -21,6 +20,7 @@ import draweditor.components.Group;
 import draweditor.components.IComponent;
 import draweditor.frame.components.Canvas;
 import draweditor.frame.components.ColorPicker;
+import draweditor.frame.components.ComponentPanel;
 import draweditor.frame.components.MenuBar;
 import draweditor.frame.components.ToolButton;
 import draweditor.frame.handlers.FocusHandler;
@@ -29,7 +29,6 @@ import draweditor.frame.handlers.MouseHandler;
 import draweditor.frame.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.BucketTool;
-import draweditor.frame.components.ComponentList;
 import draweditor.tools.EllipseBasicTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.MoveTool;
@@ -115,7 +114,8 @@ public class DrawEditor extends JFrame {
         colorPickerComponent.setOpaque(true); // content panes must be opaque
         colorPickerComponent.setSize(new Dimension(300, 200));
         // JPanel contentTree = new JPanel();
-        JScrollPane newContentPane = ComponentList.getInstance();
+        //JScrollPane newContentPane = ComponentList.getInstance();
+        JPanel newContentPane = new ComponentPanel();
         //JComponent newContentPane = JPanel(new BorderLayout());
         newContentPane.setOpaque(true);
         //newContentPane.setSize(new Dimension(300, 200));
@@ -220,9 +220,9 @@ public class DrawEditor extends JFrame {
         }
     }  
 
-    public void loadedFigures(Group group){
-        figures = group;
-        setActiveFigure(group);
+    public void loadedFigures(Group figures){
+        this.figures = figures;
+        setActiveFigure(figures);
         redraw();
     }
 }

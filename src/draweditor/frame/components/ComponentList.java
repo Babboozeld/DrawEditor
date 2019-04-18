@@ -24,6 +24,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 
+import draweditor.components.IComponent;
+
 public class ComponentList extends JScrollPane {
 
   private DefaultListModel<ListEntry> listmodel;
@@ -50,22 +52,40 @@ public class ComponentList extends JScrollPane {
   }
 
 
-  public void addItem(String figurestring) {
+  public void addItem(String figurestring, IComponent figure) {
     String path = null;
     String description = null;
     switch (figurestring) {
-    case "RectangleFigure":
+      case "RectangleFigure":
         path = ("src/images/rectangle.png");
         description = ("rectangle");
         break;
-    case "EllipseFigure":
+      case "EllipseFigure":
         path = ("src/images/ellipse.png");
         description = ("ellipse");
+        break;
+      case "BasicFigure":
+        path = ("src/images/line.png");
+        description = ("basic");
+        break;
+      case "Group":
+        path = ("src/images/group.png");
+        description = ("group");
         break;
     }
     count++;
 
-    listmodel.addElement(new ListEntry(description + count, new ImageIcon(path)));
+    listmodel.addElement(new ListEntry(description + count, new ImageIcon(path), figure));
+  }
+
+
+  public void deleteItem(IComponent figure) {
+    for (int i = 0; i < listmodel.size(); i++) {
+      if (listmodel.get(i).getFigure() == figure) {
+        listmodel.removeElement(listmodel.get(i));
+        break;
+      }
+    }
   }
 
 /* public void valueChanged(ListSelectionEvent e) {
@@ -189,10 +209,12 @@ class ListEntry
 {
     private String value;
     private ImageIcon icon;
+    private IComponent figure;
       
-    public ListEntry(String value, ImageIcon icon) {
+    public ListEntry(String value, ImageIcon icon, IComponent figure) {
         this.value = value;
         this.icon = icon;
+        this.figure = figure;
     }
       
     public String getValue() {
@@ -201,6 +223,10 @@ class ListEntry
       
     public ImageIcon getIcon() {
         return icon;
+    }
+
+    public IComponent getFigure() {
+      return figure;
     }
       
     public String toString() {
