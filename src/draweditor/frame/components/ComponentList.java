@@ -4,10 +4,8 @@ import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
@@ -23,61 +21,63 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import draweditor.DrawEditor;
 import draweditor.components.IComponent;
 
-public class ComponentList extends JScrollPane {
+public class ComponentList extends JScrollPane implements ListSelectionListener {
 
   private DefaultListModel<ListEntry> listmodel;
-  private JList<ListEntry> list;
+  // private JList<ListEntry> list;
   public int count = 0;
 
   public ComponentList(JList<ListEntry> list) {
     super(list);
-    listmodel = (DefaultListModel<ListEntry>)(list.getModel());
-    this.list = list;
+    listmodel = (DefaultListModel<ListEntry>) (list.getModel());
+    // this.list = list;
     list.setDragEnabled(true);
     list.setDropMode(DropMode.INSERT);
     list.setCellRenderer(new ListEntryCellRenderer());
     list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    //list.setSelectedIndex(0);
-    //list.addListSelectionListener(this);
+    // list.setSelectedIndex(0);
+    list.addListSelectionListener(this);
     list.setTransferHandler(new MyListDropHandler(this));
     new MyDragListener(list);
   }
 
   private static ComponentList instance = new ComponentList(new JList<ListEntry>(new DefaultListModel<ListEntry>()));
-  public static ComponentList getInstance() {
-      return instance;
-  }
 
+  public static ComponentList getInstance() {
+    return instance;
+  }
 
   public void addItem(String figurestring, IComponent figure) {
     String path = null;
     String description = null;
     switch (figurestring) {
-      case "RectangleFigure":
-        path = ("src/images/rectangle.png");
-        description = ("rectangle");
-        break;
-      case "EllipseFigure":
-        path = ("src/images/ellipse.png");
-        description = ("ellipse");
-        break;
-      case "BasicFigure":
-        path = ("src/images/line.png");
-        description = ("basic");
-        break;
-      case "Group":
-        path = ("src/images/group.png");
-        description = ("group");
-        break;
+    case "RectangleFigure":
+      path = ("src/images/rectangle.png");
+      description = ("rectangle");
+      break;
+    case "EllipseFigure":
+      path = ("src/images/ellipse.png");
+      description = ("ellipse");
+      break;
+    case "BasicFigure":
+      path = ("src/images/line.png");
+      description = ("basic");
+      break;
+    case "Group":
+      path = ("src/images/group.png");
+      description = ("group");
+      break;
     }
     count++;
 
     listmodel.addElement(new ListEntry(description + count, new ImageIcon(path), figure));
   }
-
 
   public void deleteItem(IComponent figure) {
     for (int i = 0; i < listmodel.size(); i++) {
@@ -88,17 +88,10 @@ public class ComponentList extends JScrollPane {
     }
   }
 
-/* public void valueChanged(ListSelectionEvent e) {
-    if (e.getValueIsAdjusting() == false) {
-
-        if (list.getSelectedIndex() == -1) {
-            deleteButton.setEnabled(false);
-
-        } else {
-            deleteButton.setEnabled(true);
-        }
-    }
-} */
+  @Override
+  public void valueChanged(ListSelectionEvent e) {
+    DrawEditor.getInstance().setActiveFigure(((ListEntry)((JList<ListEntry>)e.getSource()).getSelectedValue()).getFigure());
+  }
 
 }
 
@@ -134,7 +127,7 @@ class MyDragListener implements DragSourceListener, DragGestureListener {
 
   public MyDragListener(JList<ListEntry> list) {
     this.list = list;
-    DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(list, DnDConstants.ACTION_MOVE, this);
+    //DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(list, DnDConstants.ACTION_MOVE, this);
   }
 
   public void dragGestureRecognized(DragGestureEvent dge) {
@@ -188,14 +181,14 @@ class MyListDropHandler extends TransferHandler {
     }
 
     Transferable transferable = support.getTransferable();
-    String indexString;
+    //String indexString;
     try {
-      indexString = (String) transferable.getTransferData(DataFlavor.stringFlavor);
+      /*indexString = (String)*/transferable.getTransferData(DataFlavor.stringFlavor);
     } catch (Exception e) {
       return false;
     }
 
-    int index = Integer.parseInt(indexString);
+    //int index = Integer.parseInt(indexString);
     JList.DropLocation dl = (JList.DropLocation) support.getDropLocation();
     int dropTargetIndex = dl.getIndex();
 
