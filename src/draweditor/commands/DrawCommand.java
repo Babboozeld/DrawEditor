@@ -5,7 +5,7 @@ import java.util.List;
 import draweditor.DrawEditor;
 import draweditor.components.Group;
 import draweditor.components.IComponent;
-import draweditor.tools.ComponentList;
+import draweditor.frame.components.ComponentList;
 
 public class DrawCommand implements ICommand, IReversibleCommand {
 

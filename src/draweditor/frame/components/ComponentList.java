@@ -1,4 +1,4 @@
-package draweditor.tools; // http://www.java2s.com/Tutorial/Java/0240__Swing/Usedraganddroptoreorderalist.htm
+package draweditor.frame.components; // http://www.java2s.com/Tutorial/Java/0240__Swing/Usedraganddroptoreorderalist.htm
 
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;

@@ -204,51 +204,51 @@ public class ShapeList extends JPanel implements ListSelectionListener {
 //     }
 //   }
 
-class ListEntry
-{
-    private String value;
-    private ImageIcon icon;
+// class ListEntry
+// {
+//     private String value;
+//     private ImageIcon icon;
       
-    public ListEntry(String value, ImageIcon icon) {
-        this.value = value;
-        this.icon = icon;
-    }
+//     public ListEntry(String value, ImageIcon icon) {
+//         this.value = value;
+//         this.icon = icon;
+//     }
       
-    public String getValue() {
-        return value;
-    }
+//     public String getValue() {
+//         return value;
+//     }
       
-    public ImageIcon getIcon() {
-        return icon;
-    }
+//     public ImageIcon getIcon() {
+//         return icon;
+//     }
       
-    public String toString() {
-        return value;
-    }
-}
+//     public String toString() {
+//         return value;
+//     }
+// }
       
-class ListEntryCellRenderer extends JLabel implements ListCellRenderer<ListEntry>
-{
-    @Override
-    public Component getListCellRendererComponent(JList<? extends ListEntry> list, ListEntry value, int index, boolean isSelected, boolean cellHasFocus) {
+// class ListEntryCellRenderer extends JLabel implements ListCellRenderer<ListEntry>
+// {
+//     @Override
+//     public Component getListCellRendererComponent(JList<? extends ListEntry> list, ListEntry value, int index, boolean isSelected, boolean cellHasFocus) {
       
-        setText(value.toString());
-        setIcon(value.getIcon());
+//         setText(value.toString());
+//         setIcon(value.getIcon());
        
-        if (isSelected) {
-            setBackground(list.getSelectionBackground());
-            setForeground(list.getSelectionForeground());
-        }
-        else {
-            setBackground(list.getBackground());
-            setForeground(list.getForeground());
-        }
+//         if (isSelected) {
+//             setBackground(list.getSelectionBackground());
+//             setForeground(list.getSelectionForeground());
+//         }
+//         else {
+//             setBackground(list.getBackground());
+//             setForeground(list.getForeground());
+//         }
       
-        setEnabled(list.isEnabled());
-        setFont(list.getFont());
-        setOpaque(true);
+//         setEnabled(list.isEnabled());
+//         setFont(list.getFont());
+//         setOpaque(true);
       
-        return this;
-    }
-}
+//         return this;
+//     }
+// }
 

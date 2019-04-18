@@ -29,7 +29,7 @@ import draweditor.frame.handlers.MouseHandler;
 import draweditor.frame.handlers.MouseMotionHandler;
 import draweditor.tools.AbstractTool;
 import draweditor.tools.BucketTool;
-import draweditor.tools.ComponentList;
+import draweditor.frame.components.ComponentList;
 import draweditor.tools.EllipseBasicTool;
 import draweditor.tools.EllipseTool;
 import draweditor.tools.MoveTool;
