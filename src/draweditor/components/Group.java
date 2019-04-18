@@ -8,7 +8,7 @@ import draweditor.visitors.IComponentVisitor;
 
 public class Group implements IComponent {
 
-    public final static String FigureType = "group";
+    //public final static String FigureType = "group";
 
     private List<IComponent> figures;
 

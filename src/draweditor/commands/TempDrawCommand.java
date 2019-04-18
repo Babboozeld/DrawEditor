@@ -9,7 +9,7 @@ import draweditor.components.IComponent;
 
 public class TempDrawCommand implements ICommand {
 
-    public IComponent figure;
+    private IComponent figure;
 
     public TempDrawCommand(IComponent figure){
         this.figure = figure;
