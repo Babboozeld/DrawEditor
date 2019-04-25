@@ -19,9 +19,7 @@ import draweditor.components.Group;
 
 public class ComponentPanel extends JPanel {
 
-    private JButton deleteButton;
     private final String deleteString = "delete";
-    private JButton addGroupButton;
     private final String addGroupString = "add group";
     
     public ComponentPanel() {
@@ -34,11 +32,11 @@ public class ComponentPanel extends JPanel {
         buttonPane.add(Box.createHorizontalStrut(5));
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        deleteButton = new JButton(deleteString);
+        JButton deleteButton = new JButton(deleteString);
         deleteButton.setActionCommand(deleteString);
         deleteButton.addActionListener(new DeleteListener());
 
-        addGroupButton = new JButton(addGroupString);
+        JButton addGroupButton = new JButton(addGroupString);
         addGroupButton.setActionCommand(addGroupString);
         addGroupButton.addActionListener(new AddGroupListener());
 

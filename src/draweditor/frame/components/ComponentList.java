@@ -123,7 +123,7 @@ class ListEntryCellRenderer extends JLabel implements ListCellRenderer<ListEntry
 class MyDragListener implements DragSourceListener, DragGestureListener {
   
   private JList<ListEntry> list;
-  private DragSource dragSource = new DragSource();
+  private DragSource dragSource;
 
   public MyDragListener(JList<ListEntry> list) {
     this.list = list;

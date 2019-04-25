@@ -8,13 +8,13 @@ import draweditor.commands.ICommand;
 
 public class MouseMotionHandler extends MouseAdapter {
 
-    private DrawEditor d = DrawEditor.getInstance();
+    private DrawEditor draweditor = DrawEditor.getInstance();
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (this.d.activeTool != null && this.d.activeTool.beginX != e.getX() && this.d.activeTool.beginY != e.getY()) {
-            ICommand command = this.d.activeTool.getCommand(e.getX(), e.getY(), true);
-            if (command != null) this.d.execute(command);
+        if (this.draweditor.activeTool != null && this.draweditor.activeTool.beginX != e.getX() && this.draweditor.activeTool.beginY != e.getY()) {
+            ICommand command = this.draweditor.activeTool.getCommand(e.getX(), e.getY(), true);
+            if (command != null) this.draweditor.execute(command);
         }
     }
 }
