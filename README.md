@@ -16,7 +16,8 @@ Used design patterns in this project: (reflected in the tree stucture of this pr
 A great source for information on design patterns: https://www.tutorialspoint.com/design_pattern/index.htm
 
 # Class diagram
-Is in the works
+![Class Diagram DrawEditor](https://user-images.githubusercontent.com/32260048/73577145-6e934480-447c-11ea-8a34-fdf463fd6a36.png)
+*Made with [Astah](http://astah.net/)*
 
 # Used
 icons used: https://icons8.com/icon/set/line/material
